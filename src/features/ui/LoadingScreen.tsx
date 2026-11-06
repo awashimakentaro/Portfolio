@@ -19,6 +19,7 @@ export function LoadingScreen({ loaded, total, phase, error, onRetry }: {
         <circle className={styles.fill} cx="140" cy="140" r="106" pathLength="1" strokeDasharray="1" strokeDashoffset={1 - progress} transform="rotate(-90 140 140)" />
         <path className={styles.crosshair} d="M140 4v9m0 254v9M4 140h9m254 0h9" />
       </svg>
+      <span className={styles.monogram}>AK</span>
       <span className={styles.glint} />
     </div>
     <progress className={styles.accessible} value={loaded} max={total} aria-label="映像のダウンロード進捗" />
