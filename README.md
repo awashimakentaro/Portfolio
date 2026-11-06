@@ -46,4 +46,8 @@ Next.js/React/TypeScriptの実バージョンはpackage.jsonとpackage-lock.json
 - `scripts/prepare-assets.mjs`：起動／ビルド前に原本を `public/frames/` へコピー。生成先はGit管理外
 - [資料の入口](docs/README.md)：現行仕様と過去資料への案内
 
-Vercelへ接続する場合はリポジトリ直下をルートにします。ビルド時に元の映像ファイルが必要です。公開・デプロイはまだ行っていません。
+公開URL：<https://portfolio-silk-two-49.vercel.app>
+
+Vercelの`portfolio`プロジェクトにGitHubリポジトリを接続済みです。`main`へのpushで本番を自動更新します。ルートはリポジトリ直下、インストールは`npm ci`、ビルドは`npm run build`（`vercel.json`で指定）。`prebuild`が映像素材を配置するため、`scroll-preview/assets-webp/`を残してください。
+
+公開後、認証なしのHTTPアクセスとPCブラウザーで映像・Historyの本の開閉／ページ送り・Contactを確認しました。
