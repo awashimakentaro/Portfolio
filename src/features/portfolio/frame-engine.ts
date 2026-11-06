@@ -1,4 +1,5 @@
 import { sceneIds, type SceneId, type FrameState, type FrameMotion, type MoveResult } from '@/contracts/scene';
+import { FrameAssets, framePath } from './frame-assets';
 
 const directories = ['idle', 'one', 'two', 'three'];
 const FRAME_MS = 33;
@@ -24,11 +25,11 @@ export class FrameEngine {
   private lastAlignment = false;
   private reducedMotion: boolean;
 
-  constructor(private canvas: HTMLCanvasElement, private notify: (state: FrameState) => void, private onMotion?: (motion: FrameMotion) => void) {
+  constructor(private canvas: HTMLCanvasElement, private assets: FrameAssets, private notify: (state: FrameState) => void, private onMotion?: (motion: FrameMotion) => void, reducedMotion = false) {
     const context = canvas.getContext('2d', { alpha: false });
     if (!context) throw new Error('Canvas is unavailable');
     this.context = context;
-    this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.reducedMotion = reducedMotion;
     this.resize();
     this.begin(this.clip, false);
   }
@@ -40,14 +41,17 @@ export class FrameEngine {
     this.notify(this.state);
   }
   private url(directory: string, frame: number) {
-    return `/frames/${directory}/frame_${String(frame).padStart(3, '0')}.webp`;
+    return framePath(directory, frame);
   }
   private prepare(directory: string, frame: number): Entry {
     const url = this.url(directory, frame);
     const existing = this.cache.get(url);
-    if (existing) return existing;
+    if (existing) {
+      this.cache.delete(url); this.cache.set(url, existing);
+      return existing;
+    }
     const entry: Entry = { image: new Image(), status: 'loading' };
-    entry.image.src = url;
+    entry.image.src = this.assets.get(directory, frame);
     entry.image.decode().then(() => { entry.status = 'ready'; }).catch(() => { entry.status = 'error'; });
     this.cache.set(url, entry);
     while (this.cache.size > CACHE_LIMIT) this.cache.delete(this.cache.keys().next().value!);
@@ -131,12 +135,18 @@ export class FrameEngine {
     const clip = this.clip;
     const current = this.prepare(clip.directory, clip.frame);
     if (current.status === 'error') { this.publish('error'); return; }
-    for (let n = 1; n <= 28; n++) {
+    for (let n = 1; !this.reducedMotion && n <= 28; n++) {
       const ahead = clip.loop ? 2 + ((clip.frame + n - 2) % 120) : clip.frame + clip.step * n;
       if (ahead >= 1 && ahead <= 121) this.prepare(clip.directory, ahead);
     }
-    if (!clip.loop && Math.abs(clip.end - clip.frame) <= 28) {
+    if (!this.reducedMotion && !clip.loop && Math.abs(clip.end - clip.frame) <= 28) {
       for (let frame = 1; frame <= 12; frame++) this.prepare(`loop-${clip.destination + 1}`, frame);
+    }
+    if (clip.loop && !this.reducedMotion) {
+      // All bytes are local already. Decode navigation heads and the reverse
+      // boundary while stopped, before the next wheel/navigation gesture.
+      for (const directory of directories) for (let frame = 1; frame <= 6; frame++) this.prepare(directory, frame);
+      if (clip.destination > 0) for (let frame = 116; frame <= 121; frame++) this.prepare(directories[clip.destination], frame);
     }
     if (current.status !== 'ready') { this.schedule(); return; }
     if (!this.framePresented) {

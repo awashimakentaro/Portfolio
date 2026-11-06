@@ -80,3 +80,9 @@ Profile=idle/loop-1、About Me=one/loop-2、History=two/loop-3、Contact=three/l
 リポジトリ直下にNext.js App Routerを作成。映像エンジンはsrc/features/portfolio/frame-engine.ts、入力はPortfolio.tsx、HTMLはsrc/features/ui/に分離した。素材はビルド前にscroll-preview/assets-webpからpublic/framesへコピーし、原本を保持する。状態通知は毎フレームではなく画面・再生状態の変化時のみ行う。HistoryのBookExperienceが操作とSpringを所有し、BookModelが立体本体、BookLeafが固定IDの表裏と骨による湾曲を描く。詳細はbook-rebuild-plan.mdの実装記録を参照。表紙テクスチャは指定のカテゴリ別透過PNGと作品名から生成する。Portfolioは映像の状態と文字・本の表示シーンを分け、HistoryではFrameEngineのloop通知まで表示を待ち、Contactでは0.75秒の表示待機を管理する。
 
 Historyの表示準備は映像の再生と分離する。Portfolioはループ到達／History移動開始をprepareBooksとして通知し、BookExperienceはCanvasと表紙を先に非表示で準備する。表示条件は実際のHistory到達と現在カテゴリの準備完了の両方。Canvasは再入場時も保持し、非表示中はdemandで描画する。背景のフレーム選択・再生アルゴリズムは変更しない。
+
+## 映像の初回事前ダウンロード
+
+FrameAssetsが全968枚を6並列で取得し、圧縮BlobのObject URLとして保持する。取得が完了してからFrameEngineを起動し、最初のフレームが描画されるまでローディングを表示する。FrameEngineはObject URLだけを読み、96枚を上限にデコード済み画像をLRU管理する。待機ループ中は各ナビ先の先頭と逆方向の境界も先読みする。フレーム選択、33msの再生間隔、境界フェード、loop-4の補正は維持する。
+
+ダウンロードは2回まで試し、失敗時は全進行を停止して作成済みURLを解放し、ユーザーの再試行を受け付ける。終了時はfetchをabortし、Engineをdisposeしてから全Object URLをrevokeする。動きの低減設定は一回の起動で同じ値を使い、代表4枚の取得と静止画再生の不一致を避ける。

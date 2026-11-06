@@ -4,6 +4,7 @@ import type { FrameState, FrameMotion, SceneId } from '@/contracts/scene';
 import type { BookPublicState } from '@/features/history/book/BookExperience';
 import { PortfolioUI } from '@/features/ui/PortfolioUI';
 import { FrameEngine } from './frame-engine';
+import { FrameAssets, FRAME_ASSET_COUNT } from './frame-assets';
 
 export function Portfolio() {
   const stage = useRef<HTMLElement>(null);
@@ -13,6 +14,8 @@ export function Portfolio() {
   const bookStatus = useRef<BookPublicState>('browsing');
   const pendingNavigation = useRef<SceneId | null>(null);
   const [closeRequest, setCloseRequest] = useState(0);
+  const [loadAttempt, setLoadAttempt] = useState(0);
+  const [loading, setLoading] = useState({ loaded: 0, total: FRAME_ASSET_COUNT, ready: false, error: false });
   const [state, setState] = useState<FrameState>({ scene: 'profile', phase: 'loading' });
   const [displayScene, setDisplayScene] = useState<SceneId>('profile');
   const displaySceneRef = useRef(displayScene); displaySceneRef.current = displayScene;
@@ -35,13 +38,30 @@ export function Portfolio() {
   useEffect(() => { if (motion.current.scene === displayScene) applyMotionStyle(motion.current); }, [displayScene, applyMotionStyle]);
   useEffect(() => {
     if (!canvas.current) return;
-    let player: FrameEngine;
-    try { player = new FrameEngine(canvas.current, setState, (snapshot) => {
-      motion.current = snapshot;
-      if (snapshot.scene === displaySceneRef.current) applyMotionStyle(snapshot);
-    }); }
-    catch { setState({ scene: 'profile', phase: 'error' }); return; }
-    engine.current = player;
+    let player: FrameEngine | null = null;
+    const controller = new AbortController();
+    const assets = new FrameAssets();
+    setLoading({ loaded: 0, total: FRAME_ASSET_COUNT, ready: false, error: false });
+    setDisplayScene('profile');
+    setState({ scene: 'profile', phase: 'loading' });
+    bookStatus.current = 'browsing'; pendingNavigation.current = null;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    void assets.load(controller.signal, (loaded, total) => {
+      if (!controller.signal.aborted) setLoading({ loaded, total, ready: false, error: false });
+    }, reduced).then(() => {
+      if (controller.signal.aborted || !canvas.current) return;
+      player = new FrameEngine(canvas.current, assets, (snapshot) => {
+        setState(snapshot);
+        if (snapshot.phase === 'error') setLoading((current) => ({ ...current, error: true }));
+        if (snapshot.phase === 'playing' || snapshot.phase === 'loop') setLoading((current) => current.ready ? current : { ...current, ready: true });
+      }, (snapshot) => {
+        motion.current = snapshot;
+        if (snapshot.scene === displaySceneRef.current) applyMotionStyle(snapshot);
+      }, reduced);
+      engine.current = player;
+    }).catch(() => {
+      if (!controller.signal.aborted) setLoading((current) => ({ ...current, error: true }));
+    });
     let wheelAmount = 0;
     let lastWheelAt = 0;
     let touchY: number | null = null;
@@ -49,6 +69,7 @@ export function Portfolio() {
     function wheel(event: WheelEvent) {
       if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
       event.preventDefault();
+      if (!player) return;
       if (bookStatus.current !== 'browsing') { wheelAmount = 0; return; }
       const now = performance.now();
       if (player.getSnapshot().phase !== 'loop') { wheelAmount = 0; return; }
@@ -62,8 +83,8 @@ export function Portfolio() {
     }
     function key(event: KeyboardEvent) {
       if (event.target instanceof Element && event.target.closest('button,a,input,textarea,select,[contenteditable="true"]')) return;
-      if (['ArrowDown', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); if (bookStatus.current === 'browsing') player.move(1); }
-      if (['ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); if (bookStatus.current === 'browsing') player.move(-1); }
+      if (['ArrowDown', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); if (bookStatus.current === 'browsing') player?.move(1); }
+      if (['ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); if (bookStatus.current === 'browsing') player?.move(-1); }
     }
     function touchStart(event: TouchEvent) {
       if (event.target instanceof Element && event.target.closest('button,a')) return;
@@ -74,23 +95,24 @@ export function Portfolio() {
       if (touchY === null) return;
       const touch = event.changedTouches[0];
       const delta = touchY - (touch?.clientY ?? touchY);
-      if (touch && Math.abs(delta) > 40 && Math.abs(delta) > Math.abs(touch.clientX - touchX) && bookStatus.current === 'browsing') player.move(delta > 0 ? 1 : -1);
+      if (touch && Math.abs(delta) > 40 && Math.abs(delta) > Math.abs(touch.clientX - touchX) && bookStatus.current === 'browsing') player?.move(delta > 0 ? 1 : -1);
       touchY = null;
     }
     window.addEventListener('wheel', wheel, { passive: false });
     window.addEventListener('keydown', key);
     window.addEventListener('touchstart', touchStart, { passive: true });
     window.addEventListener('touchend', touchEnd, { passive: true });
-    window.addEventListener('resize', player.resize);
+    const resize = () => player?.resize();
+    window.addEventListener('resize', resize);
     return () => {
       window.removeEventListener('wheel', wheel);
       window.removeEventListener('keydown', key);
       window.removeEventListener('touchstart', touchStart);
       window.removeEventListener('touchend', touchEnd);
-      window.removeEventListener('resize', player.resize);
-      player.dispose(); engine.current = null;
+      window.removeEventListener('resize', resize);
+      controller.abort(); player?.dispose(); assets.dispose(); engine.current = null;
     };
-  }, []);
+  }, [loadAttempt, applyMotionStyle]);
   const navigate = useCallback((scene: SceneId) => {
     if (bookStatus.current !== 'browsing') {
       pendingNavigation.current = scene;
@@ -108,8 +130,17 @@ export function Portfolio() {
   }, []);
   return <main ref={stage} className="portfolio" data-scene={state.scene} data-phase={state.phase}>
     <canvas ref={canvas} className="frame-canvas" aria-hidden="true" />
-    <PortfolioUI prepareBooks={state.phase === 'loop' || state.scene === 'history'} scene={displayScene} transitionPending={state.scene !== displayScene} motionRef={motion} onNavigate={navigate} onBookStatusChange={handleBookStatusChange} onBookClosed={handleBookClosed} closeRequest={closeRequest} />
-    {state.phase === 'loading' && <div className="playback-status" role="status">映像を読み込んでいます</div>}
-    {state.phase === 'error' && <div className="playback-status" role="alert">映像を読み込めませんでした。<button onClick={() => engine.current ? engine.current.retry() : window.location.reload()}>再試行</button></div>}
+    {loading.ready && <PortfolioUI prepareBooks={state.phase === 'loop' || state.scene === 'history'} scene={displayScene} transitionPending={state.scene !== displayScene} motionRef={motion} onNavigate={navigate} onBookStatusChange={handleBookStatusChange} onBookClosed={handleBookClosed} closeRequest={closeRequest} />}
+    {!loading.ready && <div className="initial-loading" data-loading-error={loading.error}>
+      <div className="loading-card">
+        <span className="loading-logo" aria-hidden="true">AK</span>
+        <p className="loading-title">{loading.error ? '読み込みを完了できませんでした' : '映像を準備しています'}</p>
+        <p className="loading-copy">{loading.error ? '通信環境をご確認のうえ、もう一度お試しください。' : 'すべての映像を読み込んでから、はじめます。'}</p>
+        <progress className="loading-progress" value={loading.loaded} max={loading.total} aria-label="映像のダウンロード進捗" />
+        <p className="loading-percent" role="status">{Math.floor(loading.loaded / loading.total * 100)}<span>%</span></p>
+        {loading.error && <button className="loading-retry" onClick={() => setLoadAttempt((value) => value + 1)}>もう一度読み込む</button>}
+      </div>
+    </div>}
+    {loading.ready && state.phase === 'error' && <div className="playback-status" role="alert">映像を読み込めませんでした。<button onClick={() => setLoadAttempt((value) => value + 1)}>再試行</button></div>}
   </main>;
 }
