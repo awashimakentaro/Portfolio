@@ -1,0 +1,14 @@
+node_modules
+.next
+.git
+.vercel
+.agents
+.codex
+docs
+output
+test-results
+.playwright-cli
+public/frames
+*.tsbuildinfo
+.env*
+.DS_Store
