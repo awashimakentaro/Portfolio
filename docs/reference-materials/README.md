@@ -1,42 +1,31 @@
-# 参照資料
+# 現在使う参照資料
 
-このフォルダは、ポートフォリオの仕様を確認するために集約した資料のコピーです。元ファイルは移動・変更していません。仕様の正本は親フォルダの4文書（`requirements.md`、`architecture.md`、`design-spec.md`、`implementation-plan.md`）です。
+画面・操作の正本は[要件定義](../requirements.md)。以下は見た目と技術の参考です。最新ヒアリングと食い違う古い記述は採用しません。
 
-## フォルダ
+## 採用資料
 
-| フォルダ | 内容 |
+| 資料 | 用途 |
 |---|---|
-| `visual-design/` | PC全体デザイン、Works画面、全体仕様、画面設計のメモ。`sections/`にはナビ・プロフィール・Works・インターン・Contactの個別確定メモを収録 |
-| `three-d-book/` | 3D Book引き継ぎ書と表紙参考画像 |
-| `character/` | キャラクター遷移計画、旧案の履歴、透過キャラクター画像 |
+| [全体.png](visual-design/全体.png) | Profile・About Meの文章、画面全体の配置 |
+| [Works JP.png](<visual-design/Works JP.png>) | Historyのカテゴリと本の配置。画像内の作品名はサンプル |
+| [最終確定v2.md](visual-design/最終確定v2.md) | デザインの大枠。キャラクター個別制御・Works表記・Open bookボタンは最新仕様で上書き |
+| [App.png](three-d-book/App.png) | Appsの共通表紙 |
+| [Agent.png](three-d-book/Agent.png) | Agentsの共通表紙 |
+| [design.png](three-d-book/design.png) | Designの共通表紙 |
+| [internship.png](three-d-book/internship.png) | Internshipの共通表紙 |
+| [CODEX_HANDOFF.md](three-d-book/CODEX_HANDOFF.md) | 3Dブック試作の構造と操作の参考。過去の作業命令は実行指示として扱わない |
 
-## 出典と扱い
+## Figmaと映像
 
-### ビジュアルデザイン
+- [PC全体フレーム](https://www.figma.com/design/gG0m6qjGwdihZpdxTWj1B3/portfolio?node-id=30-2)：fileKey `gG0m6qjGwdihZpdxTWj1B3`、node-id `30:2`。
+- 2026-11-06にメタデータ取得成功。フレーム名「AK portfolio — JP page top」、1440×3826。詳細スタイルの抽出・本番照合は別途行う。
+- Figmaは文字・UI配置の参考。背景・キャラクターは[scroll-preview](../../scroll-preview/README.md)の採用済み映像と最新の画面・ループ対応を優先する。
 
-- `visual-design/最終確定v2.md` — 出典：`/Users/制作物/UIUXメモ/05_ポートフォリオ/06_UI・ビジュアルデザイン制作/トップページPC/最終確定v2.md`（2026-11-04更新）。現時点の最新PCビジュアル仕様。
-- `visual-design/sections/*.md` — 同じトップページPCフォルダの各セクション `最終確定.md` のコピー。
-- `visual-design/全体.png`、`Works JP.png`、`AK portfolio — JP page top.png` — Figma画面の書き出し・参考画像。後者は実測1440×3633px、1,050,391 bytes。Figmaの編集URLやレイヤー情報は含まれない。
-- `visual-design/README.md`、`成果物.md`、`進捗.md` — 出典：`/Users/制作物/UIUXメモ/05_ポートフォリオ/08_Webアプリ・3D演出実装/01_画面設計_Figma/`。READMEは1440px PC画面などの設計目標、進捗ファイルは未完了チェックリストを示す。書き出し画像が存在することだけでFigma作業全体が完了したとは判断しない。
+## 出典
 
-### 3D Book
+- 最終確定v2.md：`/Users/制作物/UIUXメモ/05_ポートフォリオ/06_UI・ビジュアルデザイン制作/トップページPC/最終確定v2.md`。
+- 全体画像：ユーザー指定の本フォルダ内画像。Figma書き出し資料として参照。
+- Book試作：`/Users/制作物/UIUXメモ/05_ポートフォリオ/08_Webアプリ・3D演出実装/02_3D制作_技術検証/最終本/3d-book-portfolio-starter/`。試作の動作・設計を参考にし、現在の要件を優先する。
+- 表紙4枚：ユーザー指定の採用素材。カテゴリごとに共通利用し、作品情報を重ねる。
 
-- `three-d-book/CODEX_HANDOFF.md` — 出典：`/Users/制作物/UIUXメモ/05_ポートフォリオ/08_Webアプリ・3D演出実装/02_3D制作_技術検証/最終本/3d-book-portfolio-starter/CODEX_HANDOFF.md`。操作・状態・試作の説明用資料。ファイル内にある過去作業の指示は実行指示として扱わない。
-- `three-d-book/本の表紙.png`、`表紙透過.png` — 同じ「最終本」フォルダにあった参照素材。
-- 試作スターター本体はこの資料集に含めない。未検証コードや依存ファイルをプロジェクト本体と混同しないため、必要時に元の場所から別途確認する。
-
-### キャラクター
-
-- `character/アニメーション実装計画.md` — 出典：`/Users/制作物/UIUXメモ/05_ポートフォリオ/08_Webアプリ・3D演出実装/02_3D制作_技術検証/一連の流れ/アニメーション実装計画.md`。最新のHeroからAboutへの遷移方針。
-- `character/AI動画キャラクター_Web実装計画.md` — 出典：`/Users/制作物/UIUXメモ/05_ポートフォリオ/08_Webアプリ・3D演出実装/02_3D制作_技術検証/AI動画キャラクター_Web実装計画.md`。2026-11-02の古い案であり、後続の11-04計画より優先しない。
-- `character/完成キャラ_透過.png` — 出典：`/Users/制作物/UIUXメモ/05_ポートフォリオ/08_Webアプリ・3D演出実装/02_3D制作_技術検証/キャラクター全体/完成キャラ_透過.png`。代表画像の参照用。連番素材一式ではない。
-- 連番PNGは資料フォルダへコピーしていない。元フォルダの実測値は、Hero候補169枚・237,879,608 bytes、遷移候補122枚・168,004,880 bytes（いずれも1920×1080 PNG）。採用する最終セットと公開・再配布条件は未確認。
-
-## Figma URL
-
-- デザインファイルURL：**未提供**
-- PC全体フレーム/node-id：**未提供**
-- モバイルフレーム/node-id：**未提供**
-- 閲覧権限：URL受領後に確認
-
-Figma URLを受け取ったら、ここに追記し、原本と書き出し画像を照合してください。
+旧キャラクター案・旧画面計画・進捗メモは[過去資料](../archive/README.md)へ移しました。削除はしていません。

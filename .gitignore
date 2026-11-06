@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+public/frames/
+*.tsbuildinfo
+.env*
+!.env.example
+.DS_Store
+output/
+test-results/
+
+.playwright-cli/

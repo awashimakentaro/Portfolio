@@ -1,0 +1,29 @@
+.experience{position:absolute;inset:0;pointer-events:auto;isolation:isolate;will-change:opacity;opacity:0;transition:opacity 1100ms cubic-bezier(.16,1,.3,1)}
+.experience[data-present='true']{opacity:1}
+.experience[data-present='false']{pointer-events:none;visibility:hidden;transition:none}
+/* Overscan removes the hard cut at the HTML content margins. Only the 3D
+   surface is feathered; categories, controls and the background stay crisp. */
+.canvas{position:absolute!important;inset:min(-110px,-12vh) -10vw!important;width:calc(100% + 20vw)!important;height:calc(100% + max(220px,24vh))!important;touch-action:none;mask-image:linear-gradient(to right,transparent 5%,#000 17%,#000 83%,transparent 95%)}
+.experience:not([data-book-status='browsing']) .canvas{mask-image:none}
+.halo{position:absolute;inset:-8% -8% -10%;pointer-events:none;background:radial-gradient(ellipse at 50% 62%,#050609c9 0%,#080b1070 38%,transparent 72%);filter:blur(18px)}
+.controls,.readerControls{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:25px;color:#eeeae0;text-align:center;white-space:nowrap;font:13px Georgia,'Yu Mincho',serif}
+.controls button,.readerControls button{width:42px;height:42px;border:1px solid #bbb29b66;border-radius:50%;background:#0b0d10b3;color:inherit;cursor:pointer;transition:background .2s,border-color .2s}
+.controls button:hover,.readerControls button:hover{background:#202329;border-color:#e0d5bc}
+.controls button:disabled,.readerControls button:disabled{opacity:.3;cursor:default}
+.pagination{display:flex;align-items:baseline;justify-content:center;gap:14px;min-width:110px;font-variant-numeric:tabular-nums lining-nums;letter-spacing:.06em;line-height:1}
+.currentNumber{font-size:27px;color:#f4efdf;text-shadow:0 0 18px #d6bf8b2b;animation:volume-name 350ms ease-out both}
+.numberDivider{align-self:center;font-size:20px;font-weight:400;color:#bca77980}
+.totalNumber{font-size:15px;color:#b1aba0}
+.readerControls{top:auto;bottom:-52px;left:50%;right:auto;transform:translateX(-50%);gap:0;z-index:5}
+.readerControls button:last-child{display:flex;align-items:center;justify-content:center;gap:10px;width:auto;min-width:174px;height:48px;border:1px solid #bbb29b66;border-radius:28px;padding:0 24px;background:#0b0d10d9;color:#eeeae0;box-shadow:0 4px 20px #0004;font:14px 'Hiragino Kaku Gothic ProN','Yu Gothic',sans-serif;transition:background .2s,border-color .2s,box-shadow .2s}
+.readerControls button:last-child:hover{background:#202329;border-color:#e0d5bc;box-shadow:0 4px 24px #0005}
+.readerControls button:focus-visible{outline:2px solid #fff7df;outline-offset:5px}
+.readerSummary{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+.experience:not([data-book-status='browsing']) .halo{background:radial-gradient(ellipse at 50% 50%,#050609ee 0%,#080b10b3 40%,#080b1060 72%,transparent 100%)}
+.notice{position:absolute;bottom:52px;width:100%;text-align:center;font:11px sans-serif;color:#bbb4a6;pointer-events:none}
+.halo::after{content:'';position:absolute;inset:8% 6% 5%;background:radial-gradient(ellipse at 50% 60%,#9a845e21,transparent 62%);opacity:calc(.25 + var(--motion-energy,0) * .6);transform:scale(calc(1 + var(--motion-energy,0) * .13));pointer-events:none}
+.experience[data-book-phase='opening']::after{content:'';pointer-events:none;position:absolute;inset:8% 10%;background:radial-gradient(ellipse,#e3c79515,transparent 66%);animation:opening-glow 1100ms ease-out both}
+@keyframes volume-name{from{opacity:0;transform:translateY(8px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes opening-glow{0%,100%{opacity:0;transform:scale(.9)}35%{opacity:1;transform:scale(1.08)}}
+@media(prefers-reduced-motion:reduce){.experience{transition:none}.currentNumber{animation:none}.halo::after{opacity:.25;transform:none}.experience[data-book-phase='opening']::after{display:none}.controls button,.readerControls button{transition:none}}
+@media(max-width:760px){.controls,.readerControls{gap:12px}.pagination{gap:10px;min-width:92px}.currentNumber{font-size:24px}.totalNumber{font-size:14px}.readerControls span{font-size:12px}}
