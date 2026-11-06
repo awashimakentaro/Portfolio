@@ -17,6 +17,7 @@ export class FrameEngine {
   private clip: Clip = { directory: 'idle', frame: 1, step: 1, end: 121, loop: false, destination: 0 };
   private raf = 0;
   private disposed = false;
+  private paused = false;
   private lastFrameAt = 0;
   private framePresented = false;
   private blockedUntil = 0;
@@ -170,7 +171,12 @@ export class FrameEngine {
     } else if (this.fade) this.draw(current.image, clip.directory === 'loop-4', time);
     if (!this.reducedMotion || this.fade) this.schedule();
   };
-  private schedule() { if (!this.disposed && !this.raf) this.raf = requestAnimationFrame(this.tick); }
+  pause() { this.paused = true; cancelAnimationFrame(this.raf); this.raf = 0; }
+  resume() {
+    if (this.disposed || !this.paused) return;
+    this.paused = false; this.lastFrameAt = performance.now(); this.schedule();
+  }
+  private schedule() { if (!this.disposed && !this.paused && !this.raf) this.raf = requestAnimationFrame(this.tick); }
   dispose() {
     this.disposed = true;
     cancelAnimationFrame(this.raf);
