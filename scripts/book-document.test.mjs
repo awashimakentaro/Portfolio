@@ -5,12 +5,17 @@ import { parseBookDocument, spreadForPage } from '../src/lib/book-document.mjs';
 test('six contents targets map to the published chapters, including process continuation pages', async () => {
   const source=await readFile(new URL('../books/design/awashima-portfolio/published.md',import.meta.url),'utf8');
   const pages=parseBookDocument(source);
-  assert.deepEqual(pages.map(page => page.id), ['contents', 'about', 'context', 'process', 'process-wireframe', 'process-prototype', 'review', 'outcome', 'tools']);
+  assert.deepEqual(pages.map(page => page.id), ['contents', 'about', 'context', 'process', 'process-after', 'review', 'outcome', 'tools']);
   const actions=pages[0].blocks.filter(block=>block.action?.kind==='page');
   assert.equal(actions.length,6);
-  assert.deepEqual(actions.map(block=>spreadForPage(pages.findIndex(page=>page.id===block.action.target))),[1,1,2,3,4,4]);
+  assert.deepEqual(actions.map(block=>spreadForPage(pages.findIndex(page=>page.id===block.action.target))),[1,1,2,3,3,4]);
   assert.ok(pages[1].blocks.some(block=>block.type==='image'));
   assert.equal(pages[1].blocks.filter(block=>block.action?.kind==='url').length,2);
+  const processPages=pages.slice(3,5);
+  assert.deepEqual(processPages.flatMap(page=>page.blocks.filter(block=>block.type==='heading').map(block=>block.text.slice(0,2))),['01','02','03','04','05','06','07','08','09','10','11']);
+  assert.equal(processPages.flatMap(page=>page.blocks.filter(block=>block.type==='image')).length,0);
+  assert.equal(processPages[0].blocks.filter(block=>block.action?.kind==='url').length,0);
+  assert.equal(processPages[1].blocks.filter(block=>block.action?.kind==='url').length,1);
 });
 test('invalid contents targets, duplicate IDs and unsafe URLs are rejected', () => {
   assert.throws(()=>parseBookDocument('<!-- page:contents -->\n\n[Missing](#absent)'),/移動先/);
@@ -23,7 +28,7 @@ test('chapter headers follow contents numbering and continue on both sides of ev
   const pages=parseBookDocument(await readFile(new URL('../books/design/awashima-portfolio/published.md',import.meta.url),'utf8'));
   assert.equal(pages[0].header,'目次');
   assert.deepEqual(pages.slice(1).map(page=>page.header),[
-    '01 作品について','02 課題・背景・目標','03 制作プロセス','03 制作プロセス','03 制作プロセス','04 検証・改善','05 成果と効果','06 使用技術・ツール',
+    '01 作品について','02 課題・背景・目標','03 制作プロセス','03 制作プロセス','04 検証・改善','05 成果と効果','06 使用技術・ツール',
   ]);
 });
 

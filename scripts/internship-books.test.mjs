@@ -22,8 +22,9 @@ for (const company of ['hr-cloud', 'pr-times', 'eyes-japan']) {
     }
     assert.deepEqual(published.slice(1).map(page => page.header), labels.map((label, i) => `${String(i + 1).padStart(2, '0')} ${label}`));
     // Missing information stays genuinely empty, but remains a reachable page.
-    const missing = company === 'pr-times' ? ['work', 'decisions', 'outcome'] : company === 'hr-cloud' ? ['work'] : [];
+    const missing = company === 'pr-times' ? ['work', 'decisions', 'outcome'] : [];
     for (const id of missing) assert.equal(published.find(page => page.id === id).blocks.length, 0);
+    if (company === 'hr-cloud') assert.ok(published.find(page => page.id === 'work').blocks.some(block => block.text?.includes('MVC')));
   });
 }
 

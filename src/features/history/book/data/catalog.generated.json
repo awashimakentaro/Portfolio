@@ -54,6 +54,7 @@
     "markdown": "/book-content/awashima-portfolio.md",
     "format": "fixed-pages",
     "thumbnail": "/book-media/awashima-portfolio/profile.png",
+    "thumbnailFit": "cover",
     "coverPeriod": "2026年10月〜現在",
     "demoUrl": "https://portfolio-silk-two-49.vercel.app",
     "githubUrl": "https://github.com/awashimakentaro/Portfolio"
