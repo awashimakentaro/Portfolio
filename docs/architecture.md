@@ -1,88 +1,53 @@
-# Portfolio v2.0 — 技術設計案
+# Portfolio — 現行アーキテクチャ
 
-画面・操作の確定事項は[requirements.md](requirements.md)。本書の構造・型・ディレクトリは実装案であり、実装済みではない。
+2026-11-07時点。現在の実装と残作業を示す。以前の案や未実装インターフェースを、実装済みAPIとして扱わない。
 
-## 本番への取り込み方【技術判断】
+## 責務と依存
 
-本番は独立したNext.jsアプリとして組み、`scroll-preview`のWebP素材とフレーム接続・先読み・ループの考え方を参照する。試作の`main.js`はそのまま埋め込まない。試作にはグローバルのホイール／キー入力があり、ナビによる途中中断やBook閲覧中の入力制御、画面状態の通知口がないためである。完成済みの動きを比較対象として残し、本番の映像表示は入力と描画を分けて実装する。再生速度、境界のつながり、ループの見た目はブラウザーで試作と照合する。
-
-3Dブックのスターターも、形状・ページめくり・リンク判定の参考として読む。現コードは中央本を`focused`として背景をロックし、追加ボタンを置き、明るい本文ページを描画し、React Springを使っていない。今回は閉じた中央本なら背景移動可能で、表紙クリックで開き、黒い紙をReact Springで動かすため、スターター全体をそのまま移植しない。
-
-## 責務
-
-| 部分 | 担当すること |
-|---|---|
-| FrameStage | 一体化したWebP映像の再生、ループ、正逆移動、指定画面への直接移動と再生 |
-| PortfolioController | 現在画面、HTML UIの表示、ナビの行き先、閉じてから移動する手順 |
-| InputCoordinator | ホイール・クリック等の振り分け。映像再生中やBook閲覧中の競合防止 |
-| BookExperience | R3F＋React Spring、本の選択・開閉・ページ送りと内部状態 |
-| HTML UI | Profile／About Me／History／Contact、ナビ、カテゴリ、外部リンク |
-| 作品データ | TypeScriptメタデータ＋Markdown。仮本文と本番文面を区別 |
-
-映像区間開始時の通知で対応UIを表示し、ループ到達後も維持する。毎フレームの映像更新をReactの画面状態に流さない。
-
-## 外部契約の案
-
-```ts
-type SceneId = 'profile' | 'about' | 'history' | 'contact';
-type FrameState = {
-  scene: SceneId;
-  phase: 'loading' | 'playing' | 'loop' | 'error';
-};
-type MoveResult = 'accepted' | 'busy' | 'boundary' | 'not-ready';
-interface FrameStagePort {
-  getSnapshot(): FrameState;
-  subscribe(listener: (state: FrameState) => void): () => void;
-  move(direction: -1 | 1): MoveResult;
-  navigate(scene: SceneId): MoveResult; // 再生中でも中断し、対象区間の先頭から再生
-}
-type BookPublicState = 'browsing' | 'reading' | 'returning';
-interface BookPort {
-  getSnapshot(): BookPublicState;
-  subscribe(listener: (state: BookPublicState) => void): () => void;
-  close(): Promise<void>; // 同じ表紙へ完全に復帰してから完了
-}
-```
-
-Profile=idle/loop-1、About Me=one/loop-2、History=two/loop-3、Contact=three/loop-4という素材対応をマニフェストに置く。画面順の番号とファイル名を分け、表示側はSceneIdだけを見る。
-
-## Book内部状態と公開状態
-
-| 内部状態の案 | 外部公開 | ホイールによる画面移動 |
+| 領域 | 実装・原本 | 責務 |
 |---|---|---|
-| 一覧・中央選択済み・本の切替 | browsing | 可能。横ドラッグ等の操作自体は入力調停する |
-| 開き中・見開き閲覧・ページ送り | reading | 無効 |
-| 閉じ中・表紙へ復帰中 | returning | 無効。復帰完了後browsingへ |
+| 画面と入力の統合 | src/features/portfolio/Portfolio.tsx | 背景移動、UI表示、初回演出、Book終了後の予約ナビ |
+| 映像取得 | frame-assets.ts | 全圧縮素材の取得・Object URL保持・中断・失敗復旧 |
+| 映像描画 | frame-engine.ts | Canvas、区間再生・逆再生・ループ・描画後通知 |
+| HTML UI | src/features/ui/ | ナビ・4画面の文字・Historyカテゴリ |
+| 3D Book | src/features/history/book/ | カルーセル・Spring状態・SkinnedMesh・GPU資源の管理 |
+| 共通契約 | src/contracts/ | SceneId・FrameState・FrameMotion・BookPublicState・BookLifecycleCallbacks |
+| 本の内容 | books/category/id/ | 制作原稿と明示的な公開スナップショット |
+| 映像素材 | assets/frames/ | 8系列・968枚のWebP原本 |
+| 比較用試作 | archive/scroll-preview/ | 本番から参照しない過去の試作 |
 
-中央に選択された本があるだけで背景移動をロックしない。外部へページ番号・Spring値・Three.jsオブジェクトを漏らさない。エラー時は操作可能な表紙／代替表示へ復旧してからロックを解除する案とする。
+PortfolioControllerとInputCoordinatorは独立クラスとして存在せず、Portfolio内の処理として実装している。外部Book契約は公開状態とコールバックに限定し、内部Springやページ番号を統合側へ渡さない。UIはBookを動的ロードする。
 
-## 入力とナビの手順
+## 表示と入力
 
-- 閉じた本の表示中は通常の正逆移動を許可する。本を開いている間のホイールは消費し、背景移動・本の切替・後からの予約再生をしない。背景ループは止めない。
-- 閲覧中のナビ操作は行き先をControllerで保持し、BookPort.close()の完了後にFrameStagePort.navigate()を一度呼ぶ。先に画面を消さない。
-- 閉じている場合はナビから直接navigate()を呼ぶ。実際に受理された画面の通知でUIを切り替える。
-- 再生中の追加ホイールは無視する。ナビは再生中でも現在の映像を中断して移動する。ナビ連打や閉じ中の行き先変更は、最後の指定を一つだけ保持する案とし、実装時に検証する。切替の見た目は実画面で調整する。
-- リンククリックを表紙クリックに伝播させない。本の外側クリックは閉じる操作だけを行い、同時に画面を移動させない。
-- 入力リスナーの所有者を一つにし、解除処理も同じ担当が持つ。
+Profile=idle/loop-1、About Me=one/loop-2、History=two/loop-3、Contact=three/loop-4。前進時Profile・About Meは区間開始から、Historyは最初のループフレーム描画後、Contactは約0.75秒後に表示する。逆方向のUIは移動先ループの描画を待つ。移動元の内容は遷移開始でフェードアウトする。
 
-## 並列作業の境界
+FrameEngineはユーザー入力を登録しない。Portfolioが縦入力を集約し、再生中の追加移動を無視する。ナビは再生途中でも目的区間へ直接移動する。Bookがopening/reading/dragging/turning/settling中なら公開reading、closing中はreturning。これらの間は背景移動を禁止し、ナビ指定は最後の1件を保持してBook終了後に実行する。背景ループは継続する。
 
-- Orchestrator／統合担当：src/app/**、src/contracts/**、src/features/portfolio/**。映像の実装方法、共有契約、入力調停、統合。
-- UI担当：src/features/ui/**、src/features/history/ui/**。文字・ナビ・カテゴリ・専用スタイル。
-- 3Dブック担当：src/features/history/book/**。本の形状、表紙、ページ、内部状態、GPU資源解放。
-- コンテンツ：src/data/**、src/content/**。担当を1人に固定する。
-- Tester／Reviewer／Designer：読み取り検証。共有型の変更は統合担当へ返す。
+モーション進捗はrefとCSS変数で渡し、毎フレームReact stateへ流さない。描画後の状態通知でUI同期する。
 
-共有契約を決めた後、UIとBookを並列に進める。同じファイルを同時編集しない。Next.jsの具体構成、依存バージョン、表紙PNGを3Dの表面へ適用する方式、映像の読み込み・配信方式は未決定。
+## 読み込みと障害対応
 
-## PC土台の実装状況
+FrameAssetsは6並列で全素材を取得し、圧縮BlobのObject URLを保持する。1回の取得は本文受信まで20秒を上限とし、失敗時に1度再試行する。再失敗で進行を停止・解放し、ローディングの再試行操作へ戻す。FrameEngineは96枚上限のデコードキャッシュを使用する。reduced-motionでは代表4枚を取得する。終了時はabort→Engine.dispose→素材URLの解放。
 
-リポジトリ直下にNext.js App Routerを作成。映像エンジンはsrc/features/portfolio/frame-engine.ts、入力はPortfolio.tsx、HTMLはsrc/features/ui/に分離した。素材はビルド前にscroll-preview/assets-webpからpublic/framesへコピーし、原本を保持する。状態通知は毎フレームではなく画面・再生状態の変化時のみ行う。HistoryのBookExperienceが操作とSpringを所有し、BookModelが立体本体、BookLeafが固定IDの表裏と骨による湾曲を描く。詳細はbook-rebuild-plan.mdの実装記録を参照。表紙テクスチャは指定のカテゴリ別透過PNGと作品名から生成する。Portfolioは映像の状態と文字・本の表示シーンを分け、HistoryではFrameEngineのloop通知まで表示を待ち、Contactでは0.75秒の表示待機を管理する。
+Book領域は専用エラー境界で障害を受け、WebGL初期化失敗・context loss時はHTML一覧と本文表示へ退避する。その際Bookの画面移動ロックと予約ナビを解放する。公開0冊も準備中の正常表示として扱う。表紙は公開データのURLをBookModelへ渡し、画像キャッシュもURL単位。ページ変形は進捗が不変なら骨・境界の再計算を省く。
 
-Historyの表示準備は映像の再生と分離する。Portfolioはループ到達／History移動開始をprepareBooksとして通知し、BookExperienceはCanvasと表紙を先に非表示で準備する。表示条件は実際のHistory到達と現在カテゴリの準備完了の両方。Canvasは再入場時も保持し、非表示中はdemandで描画する。背景のフレーム選択・再生アルゴリズムは変更しない。
+## 制作と公開
 
-## 映像の初回事前ダウンロード
+制作book.ts・cover.ts・pages・imagesはBook Studioの入力。本番は独立したpublication.ts（id/title/category/file/cover/order/links）とpublished.mdだけを検証し生成する。下書きの構文・URL・ページ設定の不備を本番ビルドへ結合しない。制作TSは本番の型検査対象から外し、Studioの参照検証を利用する。
 
-FrameAssetsが全968枚を6並列で取得し、圧縮BlobのObject URLとして保持する。取得が完了してからFrameEngineを起動し、最初のフレームが描画されるまでローディングを表示する。FrameEngineはObject URLだけを読み、96枚を上限にデコード済み画像をLRU管理する。待機ループ中は各ナビ先の先頭と逆方向の境界も先読みする。フレーム選択、33msの再生間隔、境界フェード、loop-4の補正は維持する。
+prepare-books.mjsがcatalog.generated.jsonとpublic/book-contentへ出力し、projects.tsとBookExperienceが一覧・本文を読み込む。公開本文は現3Dで自動分割してCanvasTexture化する。dev/build前に生成し、Next起動中の公開用ファイル変更はnpm run book:sync後に画面を再読み込みする。生成物を手編集しない。
 
-ダウンロードは2回まで試し、失敗時は全進行を停止して作成済みURLを解放し、ユーザーの再試行を受け付ける。終了時はfetchをabortし、Engineをdisposeしてから全Object URLをrevokeする。動きの低減設定は一回の起動で同じ値を使い、代表4枚の取得と静止画再生の不一致を避ける。
+readyは原稿の確認状態であり公開指示ではない。現状published.mdには既存の仮本文を保持している。Portfolioにはfixed-pages形式を追加。単独行の目次・外部リンク、画像、見出し、段落をR3F紙面に描く。Studioの全レイアウトの再現は未完了。
+
+## 開発境界と残作業
+
+統合担当はportfolio/app/contracts、UI担当はui、Book担当はhistory/book、制作・生成担当はbooks/scriptsを所有する。同一ファイルを同時編集しない。一般的な制御分割のために完成済み映像の再生方式を変更しない。
+
+残作業は新紙面の3D接続、正式本文・画像の確定、長い本でのGPUメモリとFPS計測。全ページ分のテクスチャ準備は残っている。シーン・素材枚数の共通マニフェスト化は今後の素材差し替え時に検討する。
+
+## 固定紙面と章への移動
+
+snapshot-book.mjsが本人の明示的な反映依頼に基づきbook.tsと各Markdownからpublished.mdへページ境界付きでスナップショット化する。公開ビルドは制作book.tsを読まず、publication.tsとpublished.mdを検証する。参照画像だけをpublic/book-mediaへ出力する。
+
+共通のbook-document.mjsでページとリンク先idを解決する。最初の本文ページは右、以降は紙の表裏に対応させる。目次のホットスポットをUVから解決し、対象見開きまでReact Springで一枚ずつめくる。operationで中断を検出し、閉じる・ナビで古い移動完了を無効化する。アクセシブルなHTMLの章ボタンも用意する。

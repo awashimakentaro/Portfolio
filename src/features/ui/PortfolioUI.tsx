@@ -2,7 +2,8 @@
 
 import { useCallback, useState, type RefObject } from 'react';
 import dynamic from 'next/dynamic';
-import type { BookCategoryId, BookPublicState } from '../history/book/BookExperience';
+import type { BookCategoryId } from '../history/book/data/projects';
+import type { BookPublicState } from '@/contracts/book';
 import { sceneIds, sceneLabels, type FrameMotion, type SceneId } from '../../contracts/scene';
 import styles from './PortfolioUI.module.css';
 
@@ -61,10 +62,10 @@ export function PortfolioUI({ scene, onNavigate, onBookStatusChange, closeReques
         {scene === 'profile' && (
           <>
             <div className={styles.profileContent}>
-              <h1 id="profile-title" className={styles.heading}><span className={styles.titleInk}>Profile</span></h1>
               <div className={styles.profileDetails}>
                 <div className={styles.profileIdentity}>
-                  <p className={styles.name} lang="ja">淡嶋健太朗</p>
+                  <p className={styles.smallLabel}>名前</p>
+                  <h1 id="profile-title" className={styles.name} lang="ja">淡嶋健太朗</h1>
                   <p className={styles.englishName} lang="en">Awashima Kentaro</p>
                 </div>
                 <div className={styles.roles}>

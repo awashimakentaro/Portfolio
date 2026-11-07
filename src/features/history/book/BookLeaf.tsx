@@ -2,7 +2,8 @@
 
 import { useFrame, type ThreeEvent } from '@react-three/fiber';
 import type { SpringValue } from '@react-spring/three';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
+import { leafPose } from '@/lib/book-leaf-motion.mjs';
 import * as THREE from 'three';
 
 const WIDTH_SEGMENTS = 24;
@@ -98,15 +99,26 @@ export function BookLeaf({
     rig.skeleton.dispose();
   }, [rig]);
 
-  useFrame(() => {
-    const p = THREE.MathUtils.clamp(progress.get(), 0, 1);
-    const curl = Math.sin(Math.PI * p) * 0.68;
-    // A small tangent offset at the binding grows into an arc across the sheet.
-    // Both endpoints are exactly flat, so turning does not change the rest shape.
-    rig.bones[0].rotation.y = -Math.PI * p - curl * 0.48;
+  const reducedMotion = useRef(false);
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => { reducedMotion.current = media.matches; }; update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+  const lastPose = useRef<{ rig: typeof rig; p: number; count: number } | null>(null);
+  useFrame((_, delta) => {
+    const target = THREE.MathUtils.clamp(progress.get(), 0, 1);
+    if (lastPose.current?.rig === rig && lastPose.current.p === target && lastPose.current.count === count) return;
+    const previous = lastPose.current?.rig === rig ? lastPose.current.p : target;
+    let p = reducedMotion.current ? target : THREE.MathUtils.damp(previous, target, 26, Math.min(delta, .05));
+    if (Math.abs(target - p) < .0001) p = target;
+    lastPose.current = { rig, p, count };
+    const pose = leafPose(p, target - p, WIDTH_SEGMENTS);
+    rig.bones[0].rotation.y = pose.root;
     for (let bone = 1; bone <= WIDTH_SEGMENTS; bone++) {
-      const fraction = bone / WIDTH_SEGMENTS;
-      rig.bones[bone].rotation.y = curl / WIDTH_SEGMENTS * (0.8 + 0.4 * Math.sin(fraction * Math.PI));
+      const joint = pose.joints[bone - 1];
+      rig.bones[bone].rotation.set(joint.x, joint.y, joint.z);
     }
     const spacing = Math.min(STACK_SPACING, 0.075 / Math.max(1, count));
     rig.group.position.z = 0.12 + ((1 - p) * (count - index) + p * index) * spacing;

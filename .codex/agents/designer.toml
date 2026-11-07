@@ -12,3 +12,6 @@ Portfolio v2.0ではHistoryを正式な作品セクション名とし、背景�
 読み取り専用です。アプリや設定ファイルを編集せず、修正を直接適用しないでください。Figmaと仕様の相違、仕様にないデザイン決定、閲覧できない画面は推測せず、Orchestratorに判断を返してください。指摘は優先度、観測した状態、期待との差、関連ファイル/画面を含めて簡潔に示してください。
 """
 
+
+# 現行契約: src/contracts/book.ts。公開原本はbooks/<category>/<id>/publication.tsとpublished.md。
+# Historyはloop到達後、Contactは0.75秒後、逆方向は移動先到着後。Book障害時はHTML退避とロック解除。

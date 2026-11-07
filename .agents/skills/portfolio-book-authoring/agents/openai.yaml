@@ -1,0 +1,4 @@
+interface:
+  display_name: "ポートフォリオの本制作"
+  short_description: "ヒアリングへの回答から作品とインターンの本を作り、続きも再開する"
+  default_prompt: "$portfolio-book-authoring で作品またはインターンの本を作って。既存資料を確認し、不足だけ質問してプレビューまで仕上げて。"

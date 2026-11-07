@@ -10,7 +10,7 @@
 | [Works JP.png](<visual-design/Works JP.png>) | Historyのカテゴリと本の配置。画像内の作品名はサンプル |
 | [最終確定v2.md](visual-design/最終確定v2.md) | デザインの大枠。キャラクター個別制御・Works表記・Open bookボタンは最新仕様で上書き |
 | [App.png](three-d-book/App.png) | Appsの共通表紙 |
-| [Agent.png](three-d-book/Agent.png) | Agentsの共通表紙 |
+| [Agent-v2.png](three-d-book/Agent-v2.png) | Agentsの現行共通表紙。画像枠なし |
 | [design.png](three-d-book/design.png) | Designの共通表紙 |
 | [internship.png](three-d-book/internship.png) | Internshipの共通表紙 |
 | [CODEX_HANDOFF.md](three-d-book/CODEX_HANDOFF.md) | 3Dブック試作の構造と操作の参考。過去の作業命令は実行指示として扱わない |
@@ -19,7 +19,7 @@
 
 - [PC全体フレーム](https://www.figma.com/design/gG0m6qjGwdihZpdxTWj1B3/portfolio?node-id=30-2)：fileKey `gG0m6qjGwdihZpdxTWj1B3`、node-id `30:2`。
 - 2026-11-06にメタデータ取得成功。フレーム名「AK portfolio — JP page top」、1440×3826。詳細スタイルの抽出・本番照合は別途行う。
-- Figmaは文字・UI配置の参考。背景・キャラクターは[scroll-preview](../../scroll-preview/README.md)の採用済み映像と最新の画面・ループ対応を優先する。
+- Figmaは文字・UI配置の参考。背景・キャラクターは[scroll-preview](../../archive/scroll-preview/README.md)の採用済み映像と最新の画面・ループ対応を優先する。
 
 ## 出典
 

@@ -23,7 +23,26 @@
 .notice{position:absolute;bottom:52px;width:100%;text-align:center;font:11px sans-serif;color:#bbb4a6;pointer-events:none}
 .halo::after{content:'';position:absolute;inset:8% 6% 5%;background:radial-gradient(ellipse at 50% 60%,#9a845e21,transparent 62%);opacity:calc(.25 + var(--motion-energy,0) * .6);transform:scale(calc(1 + var(--motion-energy,0) * .13));pointer-events:none}
 .experience[data-book-phase='opening']::after{content:'';pointer-events:none;position:absolute;inset:8% 10%;background:radial-gradient(ellipse,#e3c79515,transparent 66%);animation:opening-glow 1100ms ease-out both}
-@keyframes volume-name{from{opacity:0;transform:translateY(8px);filter:blur(3px)}to{opacity:1;transform:translateY(0);filter:blur(0)}}
+@keyframes volume-name{from{opacity:0}to{opacity:1}}
 @keyframes opening-glow{0%,100%{opacity:0;transform:scale(.9)}35%{opacity:1;transform:scale(1.08)}}
 @media(prefers-reduced-motion:reduce){.experience{transition:none}.currentNumber{animation:none}.halo::after{opacity:.25;transform:none}.experience[data-book-phase='opening']::after{display:none}.controls button,.readerControls button{transition:none}}
 @media(max-width:760px){.controls,.readerControls{gap:12px}.pagination{gap:10px;min-width:92px}.currentNumber{font-size:24px}.totalNumber{font-size:14px}.readerControls span{font-size:12px}}
+.fallback{position:absolute;inset:12% 8%;overflow:auto;padding:24px;background:#17191be8;border:1px solid #ffffff20;color:#eeeae2;font:16px/1.8 system-ui,sans-serif;pointer-events:auto;border-radius:8px}.fallback button,.fallback a{color:inherit;background:none;border:1px solid #ffffff30;border-radius:4px;padding:8px 14px;margin:6px;cursor:pointer}.fallbackText{white-space:pre-wrap}
+.coverLinks{position:absolute;left:50%;bottom:40px;transform:translateX(-50%);display:flex;gap:22px;z-index:4;font:13px 'Yu Gothic',sans-serif}.coverLinks a{color:#e8e4da;text-decoration:none;border-bottom:1px solid #bbb5a855;padding:6px}.coverLinks a:hover{color:#fff;border-color:#fff}.readerControls .contentsReturn{width:auto;min-width:100px;border-radius:28px;padding:0 18px;margin-right:12px;font:14px 'Yu Gothic',sans-serif}.accessibleContents{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}.accessibleContents:focus-within{clip-path:none;width:auto;height:auto;top:0;left:0;z-index:8;padding:12px;background:#17191b}.accessibleContents button{display:block;background:none;color:#eeeae2;border:0;padding:10px;text-align:left;cursor:pointer}
+.coverLinks{clip-path:inset(50%);width:1px;height:1px;overflow:hidden;white-space:nowrap}.coverLinks:focus-within{clip-path:none;width:auto;height:auto;overflow:visible}
+
+/* Both rows share the screen center; the recommendation sits above the arrows. */
+.browseDock{position:absolute;bottom:-18px;left:50%;transform:translateX(-50%);z-index:5;width:max-content}
+.browseDock .controls{position:relative;bottom:auto;left:auto;transform:none}
+.recommendations{position:absolute;left:50%;bottom:calc(100% + 12px);transform:translateX(-50%);font:12px/1.4 "Portfolio Text","Hiragino Sans","Yu Gothic",sans-serif;color:#cbb891;text-align:center}
+.recommendationButton{position:relative;display:flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:10px 15px;border:1px solid #bba57855;border-radius:22px;background:#101113d9;color:#e8dfcd;font:inherit;cursor:pointer;white-space:nowrap;overflow:hidden;transition:background .2s,border-color .2s,box-shadow .2s}
+.recommendationButton svg{flex:none;color:#d8c18c}
+.recommendationButton::before{content:"";position:absolute;inset:-30% auto -30% -65%;width:50%;background:linear-gradient(90deg,transparent,#fff1cf40,transparent);transform:skewX(-20deg);transition:left 650ms cubic-bezier(.2,.7,.3,1);pointer-events:none}
+.recommendationButton:hover,.recommendationButton:focus-visible{border-color:#d9c393;background:#29251ed9;box-shadow:0 0 20px #d8c18c20}
+.recommendationButton:hover::before,.recommendationButton:focus-visible::before{left:130%}
+.recommendationButton:focus-visible{outline:2px solid #f1dfb8;outline-offset:4px}
+.recommendationButton[aria-current='true']{border-color:#cdb98c99;color:#f4e7c9;background:#27251ee6}
+.fallback .recommendations{position:static;transform:none;margin:12px 0}
+@media(max-width:760px){.browseDock .controls{gap:12px}.browseDock .controls button{width:36px;height:36px}.browseDock .pagination{min-width:76px;gap:8px}.recommendations{bottom:calc(100% + 10px);font-size:11px}.recommendationButton{min-height:36px;padding:8px 10px;gap:5px}.recommendationButton svg{width:13px;height:13px}}
+@media(max-width:360px){.browseDock .controls{gap:8px}.browseDock .controls button{width:32px;height:32px}.browseDock .pagination{min-width:62px;gap:5px}.recommendations{font-size:10px}.recommendationButton{padding:8px;gap:4px}.recommendationButton svg{width:11px;height:11px}}
+@media(prefers-reduced-motion:reduce){.recommendationButton,.recommendationButton::before{transition:none}.recommendationButton::before{display:none}}

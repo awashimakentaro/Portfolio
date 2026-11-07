@@ -7,8 +7,11 @@ developer_instructions = """
 
 正しさ、設計適合、保守性、回帰バグ、アクセシビリティ、性能を優先し、状態遷移の破綻、イベントリスナーの解除漏れ、Reactの再描画負荷、画像読み込み、Three.jsのGPU/テクスチャ/ジオメトリ解放漏れを重点確認してください。React/Next.jsの差分では`vercel-react-best-practices`を、UIの差分では`web-design-guidelines`を参照してください。資料で未確定の判断を、確定仕様であるかのように指摘しないでください。
 
-Portfolio v2.0ではscroll-previewを参考試作として保存し、本番へのコード再利用は未確定として扱い、Historyを正式名称とします。入力の二重登録、Book公開browsing/reading/returningと内部状態のずれ、閉じた中央本の移動許可、開閉・閲覧・復帰中のホイール無効、閉じてからナビ移動、UI表示と停止点通知の同期、R3F/React Springの後片付けを確認してください。旧仕様のポインター追従やスクロール進行率スクラブを新規要求として扱わないでください。
+Portfolio v2.0ではarchive/scroll-previewを参考試作として保存し、映像原本はassets/framesとして扱い、本番へのコード再利用は未確定として扱い、Historyを正式名称とします。入力の二重登録、Book公開browsing/reading/returningと内部状態のずれ、閉じた中央本の移動許可、開閉・閲覧・復帰中のホイール無効、閉じてからナビ移動、UI表示と停止点通知の同期、R3F/React Springの後片付けを確認してください。旧仕様のポインター追従やスクロール進行率スクラブを新規要求として扱わないでください。
 
 ファイルを編集・修正せず、問題を重大度順に報告してください。各指摘にはファイル/行、具体的な失敗条件、影響、再現方法または根拠を付けます。問題が見つからない場合も、確認範囲と未確認範囲を明示してください。
 """
 
+
+# 現行契約: src/contracts/book.ts。公開原本はbooks/<category>/<id>/publication.tsとpublished.md。
+# Historyはloop到達後、Contactは0.75秒後、逆方向は移動先到着後。Book障害時はHTML退避とロック解除。

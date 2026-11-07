@@ -12,3 +12,7 @@ public/frames
 *.tsbuildinfo
 .env*
 .DS_Store
+
+archive
+
+public/book-media

@@ -1,0 +1,121 @@
+[
+  {
+    "id": "pfc-tracker",
+    "title": "Diet App",
+    "category": "apps",
+    "cover": "/book-covers/App.png",
+    "markdown": "/book-content/pfc-tracker.md",
+    "format": "fixed-pages",
+    "thumbnail": "/book-media/pfc-tracker/pfc-tracker-cover-full.png",
+    "thumbnailFit": "cover",
+    "thumbnailBackground": "#10170a",
+    "coverPeriod": "2026年3月〜2026年4月",
+    "demoUrl": "https://diet-phi-bay.vercel.app/",
+    "githubUrl": "https://github.com/awashimakentaro/diet"
+  },
+  {
+    "id": "campus-qiita",
+    "title": "Campus Qiita",
+    "category": "apps",
+    "cover": "/book-covers/App.png",
+    "markdown": "/book-content/campus-qiita.md",
+    "format": "fixed-pages",
+    "thumbnail": "/book-media/campus-qiita/campus-qiita.png",
+    "coverPeriod": "2025年8月",
+    "demoUrl": "https://campus-qiita-frontend.vercel.app/",
+    "githubUrl": "https://github.com/awashimakentaro/campus-qiita-frontend"
+  },
+  {
+    "id": "kodo",
+    "title": "Kodo",
+    "category": "apps",
+    "cover": "/book-covers/App.png",
+    "markdown": "/book-content/kodo.md",
+    "format": "fixed-pages",
+    "thumbnail": "/book-media/kodo/kodo.png",
+    "coverPeriod": "2026年2月",
+    "demoUrl": "https://kodo-plum.vercel.app/",
+    "githubUrl": "https://github.com/awashimakentaro/kodo"
+  },
+  {
+    "id": "engineer-learning",
+    "title": "Engineering Learning",
+    "category": "agents",
+    "cover": "/book-covers/Agent-v2.png",
+    "markdown": "/book-content/engineer-learning.md",
+    "format": "fixed-pages",
+    "coverPeriod": "2026年10月〜2026年11月"
+  },
+  {
+    "id": "awashima-portfolio",
+    "title": "Awashima Portfolio",
+    "category": "design",
+    "cover": "/book-covers/design.png",
+    "markdown": "/book-content/awashima-portfolio.md",
+    "format": "fixed-pages",
+    "thumbnail": "/book-media/awashima-portfolio/profile.png",
+    "coverPeriod": "2026年10月〜現在",
+    "demoUrl": "https://portfolio-silk-two-49.vercel.app",
+    "githubUrl": "https://github.com/awashimakentaro/Portfolio"
+  },
+  {
+    "id": "utd",
+    "title": "UTD",
+    "category": "apps",
+    "cover": "/book-covers/App.png",
+    "markdown": "/book-content/utd.md",
+    "format": "fixed-pages",
+    "thumbnail": "/book-media/utd/utd.png",
+    "coverPeriod": "2025年1月",
+    "demoUrl": "https://toilet-eta.vercel.app/",
+    "githubUrl": "https://github.com/awashimakentaro/toilet"
+  },
+  {
+    "id": "presence-note",
+    "title": "Presence-Note",
+    "category": "apps",
+    "cover": "/book-covers/App.png",
+    "markdown": "/book-content/presence-note.md",
+    "format": "fixed-pages",
+    "thumbnail": "/book-media/presence-note/presence-note.png",
+    "coverPeriod": "2025年12月",
+    "demoUrl": "https://www.youtube.com/shorts/9xW-BIbZ5RM",
+    "githubUrl": "https://github.com/awashimakentaro/Presence-Note"
+  },
+  {
+    "id": "hr-cloud",
+    "title": "HR Cloud",
+    "category": "internship",
+    "cover": "/book-covers/internship.png",
+    "markdown": "/book-content/hr-cloud.md",
+    "format": "fixed-pages",
+    "thumbnail": "/book-media/hr-cloud/company-logo.png",
+    "thumbnailFit": "contain",
+    "thumbnailBackground": "#ffffff",
+    "coverPeriod": "2026年〜現在"
+  },
+  {
+    "id": "pr-times",
+    "title": "PR TIMES",
+    "category": "internship",
+    "cover": "/book-covers/internship.png",
+    "markdown": "/book-content/pr-times.md",
+    "format": "fixed-pages",
+    "thumbnail": "/book-media/pr-times/company-logo.png",
+    "thumbnailFit": "contain",
+    "thumbnailBackground": "#294c7a",
+    "coverPeriod": "2025年10月〜2025年12月"
+  },
+  {
+    "id": "eyes-japan",
+    "title": "Eyes-Japan",
+    "category": "internship",
+    "cover": "/book-covers/internship.png",
+    "markdown": "/book-content/eyes-japan.md",
+    "format": "fixed-pages",
+    "thumbnail": "/book-media/eyes-japan/company-logo.png",
+    "thumbnailFit": "contain",
+    "thumbnailBackground": "#1e1e1e",
+    "coverPeriod": "2026年6月〜2026年10月"
+  }
+]

@@ -5,7 +5,10 @@ developer_instructions = """
 
 Orchestratorが明示した承認済みタスクとファイルだけを編集します。提案所有範囲はsrc/features/history/book/**です。本のReact Three Fiber描画、React Springアニメーション、内部状態機械、公開browsing/reading/returning状態、GPU資源とイベントの後片付けを担当します。FrameStageの映像再生アルゴリズム・素材、UI担当ファイル、共有契約は編集しません。
 
-中央の閉じた本はbrowsingで画面移動可能です。開き中・閲覧・ページ送りはreading、閉じて表紙へ復帰する間はreturningです。reading/returningではホイールを無効にし、ナビ指定は閉じ終えてから実行できるよう完了を通知します。背景ループは継続します。内部ページ番号やSpring値を外部公開状態に混ぜません。黒い紙・白系文字の見開き、当面文章のみ、左右ページクリック、最初の左ページまたは本の外側で閉じる仕様です。指定の4表紙を使い、仮本文は差替え用と明示します。形状や寸法は試作・資料を確認します。
+中央の閉じた本はbrowsingで画面移動可能です。開き中・閲覧・ページ送りはreading、閉じて表紙へ復帰する間はreturningです。reading/returningではホイールを無効にし、ナビ指定は閉じ終えてから実行できるよう完了を通知します。背景ループは継続します。内部ページ番号やSpring値を外部公開状態に混ぜません。黒い紙・白系文字の見開き、Portfolioのfixed-pagesは画像・外部リンク・目次による章移動も扱い、左右ページクリックとドラッグ、最初の左ページまたは本の外側で閉じる仕様です。指定の4表紙を使い、仮本文は差替え用と明示します。形状や寸法は試作・資料を確認します。
 
 プロジェクトSkillのthreejs-engineerとvercel-react-best-practicesを参照します。実行した検証だけを報告し、共有契約の変更が必要ならOrchestratorへ提案してください。
 """
+
+# 現行契約: src/contracts/book.ts。公開原本はbooks/<category>/<id>/publication.tsとpublished.md。
+# Historyはloop到達後、Contactは0.75秒後、逆方向は移動先到着後。Book障害時はHTML退避とロック解除。

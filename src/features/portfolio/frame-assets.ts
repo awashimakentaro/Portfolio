@@ -8,6 +8,8 @@ export class FrameAssets {
   private controller = new AbortController();
   private disposed = false;
 
+  constructor(private requestTimeoutMs = 20_000) {}
+
   async load(signal: AbortSignal, progress: (loaded: number, total: number) => void, reducedMotion = false) {
     const paths = reducedMotion
       ? GROUPS.filter((group) => group.startsWith('loop-')).map((group) => framePath(group, 1))
@@ -23,14 +25,23 @@ export class FrameAssets {
         const path = paths[cursor++];
         let blob: Blob | undefined;
         for (let attempt = 0; attempt < 2; attempt++) {
+          const request = new AbortController();
+          const abortRequest = () => request.abort(this.controller.signal.reason);
+          this.controller.signal.addEventListener('abort', abortRequest, { once: true });
+          const timeout = setTimeout(() => request.abort(new Error('Frame request timed out')), this.requestTimeoutMs);
           try {
-            const response = await fetch(path, { signal: this.controller.signal, cache: attempt ? 'reload' : 'force-cache' });
+            this.controller.signal.throwIfAborted();
+            const response = await fetch(path, { signal: request.signal, cache: attempt ? 'reload' : 'force-cache' });
             if (!response.ok) throw new Error(`Frame response: ${response.status}`);
             blob = await response.blob();
+            request.signal.throwIfAborted();
             if (!blob.size || !blob.type.startsWith('image/')) throw new Error('Invalid frame');
             break;
           } catch (error) {
             if (this.controller.signal.aborted || attempt === 1) throw error;
+          } finally {
+            clearTimeout(timeout);
+            this.controller.signal.removeEventListener('abort', abortRequest);
           }
         }
         this.controller.signal.throwIfAborted();

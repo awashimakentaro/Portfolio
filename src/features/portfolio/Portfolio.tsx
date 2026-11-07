@@ -1,7 +1,7 @@
 'use client';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { FrameState, FrameMotion, SceneId } from '@/contracts/scene';
-import type { BookPublicState } from '@/features/history/book/BookExperience';
+import type { BookPublicState } from '@/contracts/book';
 import { PortfolioUI } from '@/features/ui/PortfolioUI';
 import { LoadingScreen, type IntroPhase } from '@/features/ui/LoadingScreen';
 import { FrameEngine } from './frame-engine';

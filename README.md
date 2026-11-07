@@ -8,14 +8,14 @@ Appsは10冊固定です。追加の7冊はSample Appと明示した架空デー
 
 ## 起動
 
-Node.js 20.9以上（開発時22.17.1）。リポジトリ直下で実行します。
+Node.js 22.13以上（開発時22.17.1）。リポジトリ直下で実行します。
 
 ```sh
 npm ci
 npm run dev
 ```
 
-ブラウザーで http://localhost:3000 を開きます。試作は `scroll-preview/` に独立して残しています。
+ブラウザーで http://localhost:3000 を開きます。試作は `archive/scroll-preview/` に独立して残しています。
 
 ## 確認・本番ビルド
 
@@ -40,14 +40,15 @@ Next.js/React/TypeScriptの実バージョンはpackage.jsonとpackage-lock.json
 
 - `src/features/portfolio/`：映像描画と入力制御
 - `src/features/ui/`：ナビ・4画面のHTML UI
-- `src/features/history/book/`：3D表紙・閲覧UI・TypeScript作品情報・Markdown仮本文
+- `src/features/history/book/`：3D表紙・紙面描画・開閉とページめくり
+- `books/`：作品名・本文・画像・表紙設定・ヒアリング記録の原本（[使い方](books/README.md)）
 - `src/contracts/`：画面IDなどの共有型
-- `scroll-preview/assets-webp/`：採用映像の原本（968枚）
+- `assets/frames/`：採用映像の原本（968枚）
 - `scripts/prepare-assets.mjs`：起動／ビルド前に原本を `public/frames/` へコピー。生成先はGit管理外
 - [資料の入口](docs/README.md)：現行仕様と過去資料への案内
 
 公開URL：<https://portfolio-silk-two-49.vercel.app>
 
-Vercelの`portfolio`プロジェクトにGitHubリポジトリを接続済みです。`main`へのpushで本番を自動更新します。ルートはリポジトリ直下、インストールは`npm ci`、ビルドは`npm run build`（`vercel.json`で指定）。`prebuild`が映像素材を配置するため、`scroll-preview/assets-webp/`を残してください。
+Vercelの`portfolio`プロジェクトにGitHubリポジトリを接続済みです。`main`へのpushで本番を自動更新します。ルートはリポジトリ直下、インストールは`npm ci`、ビルドは`npm run build`（`vercel.json`で指定）。`prebuild`が映像素材を配置するため、`assets/frames/`を残してください。
 
 公開後、認証なしのHTTPアクセスとPCブラウザーで映像・Historyの本の開閉／ページ送り・Contactを確認しました。

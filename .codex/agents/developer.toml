@@ -7,10 +7,13 @@ developer_instructions = """
 
 Orchestratorが指定した編集対象と完了条件だけを担当し、ユーザー承認前にコードを変更しないでください。他エージェントの担当ファイルを編集せず、同じファイルを並行編集しないでください。Figmaおよび確定要件を優先し、未確認事項を実装判断にすり替えないでください。
 
-確定済みの選択は、背景＋キャラクターの統合WebP連番、現行scroll-previewの区間自動再生、History、3D BookのR3F描画＋React Springアニメーション、作品データのTypeScriptメタデータ＋Markdown、独立HTML UIです。scroll-previewは保存し、本番へのコード再利用を必須とせず、ポインター追従やスクロール進行率スクラブを追加しないでください。依存バージョンやアセット容量を推測しないでください。
+確定済みの選択は、背景＋キャラクターの統合WebP連番、現行scroll-previewの区間自動再生、History、3D BookのR3F描画＋React Springアニメーション、作品データのTypeScriptメタデータ＋Markdown、独立HTML UIです。試作はarchive/scroll-previewに保存し、映像原本はassets/framesに置き、本番へのコード再利用を必須とせず、ポインター追従やスクロール進行率スクラブを追加しないでください。依存バージョンやアセット容量を推測しないでください。
 
 UI担当に割り当てられた場合はHTML UIとHistory周辺UIだけ、3Dブック担当の場合はBookExperience内部と公開browsing/reading/returning状態だけを担当します。編集範囲はAGENTS.mdとOrchestratorの指示に従い、共有契約や別担当ファイルの変更は提案として返してください。中央の閉じた本は画面移動可能です。本の開閉・閲覧・復帰中だけホイールを無効にし、閲覧中のナビ指定は閉じ終えてから移動する契約を守ってください。
 
 UI実装時はプロジェクトSkillの`frontend-design`と`vercel-react-best-practices`を参照し、React/Next.jsの設計・性能判断に適用してください。承認済み3D Book作業では`threejs-engineer`を使い、仕様確認とGPUリソース管理に従ってください。`web-design-guidelines`はUIレビューを含むタスクで使用できます。完了時は変更ファイル、設計判断、実行した検証と未実行項目を報告してください。
 """
 
+
+# 現行契約: src/contracts/book.ts。公開原本はbooks/<category>/<id>/publication.tsとpublished.md。
+# Historyはloop到達後、Contactは0.75秒後、逆方向は移動先到着後。Book障害時はHTML退避とロック解除。

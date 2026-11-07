@@ -3,17 +3,24 @@ import { Canvas, useThree, type ThreeEvent } from '@react-three/fiber';
 import { animated, to, useSpring, useSprings, type SpringValue } from '@react-spring/three';
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from 'react';
 import { CanvasTexture, Mesh, Texture } from 'three';
-import { BOOK_PROJECTS, APP_SAMPLE_PROJECTS, type BookCategoryId } from './data/projects';
+import { BOOK_PROJECTS, type BookCategoryId } from './data/projects';
 import { BookLeaf } from './BookLeaf';
 import { BookModel } from './BookModel';
+import { BookRecommendations } from './BookRecommendations';
+import { nearestBookSlot } from '@/lib/book-gallery.mjs';
 import { BookAtmosphere } from './BookAtmosphere';
 import { BookArrival } from './BookArrival';
 import { BookLandingSparks } from './BookLandingSparks';
 import type { FrameMotion } from '@/contracts/scene';
 import { paginateMarkdown, paperTexture } from './textures';
+import { parseBookDocument, spreadForPage } from '@/lib/book-document.mjs';
+import type { BookAction } from '@/lib/book-document.mjs';
+import { documentTexture, actionAt } from './document-textures';
 import styles from './BookExperience.module.css';
 export type { BookCategoryId } from './data/projects';
-export type BookPublicState = 'browsing' | 'reading' | 'returning';
+import type { BookPublicState } from '@/contracts/book';
+export type { BookPublicState } from '@/contracts/book';
+import { BookBoundary, BookFallback } from './BookBoundary';
 type Phase = 'browsing' | 'opening' | 'reading' | 'dragging' | 'turning' | 'settling' | 'closing';
 type Props = { categoryId: BookCategoryId; active: boolean; prepare?: boolean; motionRef?: RefObject<FrameMotion>; onStatusChange?: (status: BookPublicState) => void; closeRequest?: number; onClosed?: () => void };
 type PointerEvent3D = ThreeEvent<PointerEvent>;
@@ -22,13 +29,17 @@ type LeafHandlers = { onClick: (event: ThreeEvent<MouseEvent>, index: number) =>
 
 const modulo = (value: number, length: number) => ((value % length) + length) % length;
 
-function PositionedBook({ slot, track, closedScale, openedScale, closedY, progress, children, wide }: {
+function PositionedBook({ slot, track, closedScale, openedScale, closedY, progress, children, wide, visibleRadius }: {
   slot: number; track: SpringValue<number>; closedScale: number; openedScale: number; closedY: number;
-  progress: SpringValue<number>; children: ReactNode; wide: boolean;
+  progress: SpringValue<number>; children: ReactNode; wide: boolean; visibleRadius: number;
 }) {
   const factorAt = (distance: number) => {
     const d = Math.abs(distance);
-    return d <= 1 ? 1 - d * .3 : d <= 2 ? .7 - (d - 1) * .22 : .48;
+    const size = d <= 1 ? 1 - d * .3 : d <= 2 ? .7 - (d - 1) * .22 : .48;
+    // Buffered copies enter continuously, but do not repeat the same title
+    // beyond the three/five visible positions when the shelf is at rest.
+    const edge = Math.max(0, Math.min(1, visibleRadius + 1 - d));
+    return size * edge * edge * (3 - 2 * edge);
   };
   return <animated.group
     position-x={to([track, progress], (center, p) => {
@@ -63,7 +74,7 @@ function Stage({ categoryId, books, openProgress, leafProgress, textures, phase,
   const wasActive = useRef(false);
   const entranceConsumed = useRef(false);
   if (active && !wasActive.current) {
-    arrival.current = { started: performance.now(), slots: new Set(books.length >= 5
+    arrival.current = { started: performance.now(), slots: new Set(books.length > 1
       ? Array.from({ length: 5 }, (_, n) => position + n - 2)
       : books.map((_, n) => n)) };
     entranceConsumed.current = false;
@@ -77,7 +88,7 @@ function Stage({ categoryId, books, openProgress, leafProgress, textures, phase,
   // before the previous slide settles. Visible outgoing books stay mounted.
   const rangeStart = Math.min(position, Math.floor(track.get())) - 4;
   const rangeEnd = Math.max(position, Math.ceil(track.get())) + 4;
-  const slots = books.length >= 5
+  const slots = books.length > 1
     ? Array.from({ length: rangeEnd - rangeStart + 1 }, (_, n) => rangeStart + n)
     : books.map((_, n) => n);
   useEffect(() => {
@@ -141,6 +152,7 @@ function Stage({ categoryId, books, openProgress, leafProgress, textures, phase,
   const bottomReserve = 60;
   const availableHeight = unit * Math.max(layoutHeight * .35, layoutHeight - topReserve - bottomReserve);
   const wide = books.length >= 5;
+  const visibleRadius = Math.min(2, Math.floor(books.length / 2));
   const closedScale = Math.min(availableHeight * .88 / 2.5, layoutWidth * unit / (wide ? 8.2 : 6.1));
   const closedY = -(topReserve - bottomReserve) * unit / 2;
   const openedScale = Math.min(layoutHeight * unit * .94 / 2.4, layoutWidth * unit * .98 / 3.6);
@@ -161,10 +173,10 @@ function Stage({ categoryId, books, openProgress, leafProgress, textures, phase,
       const visible = selected || phase === 'browsing';
       const arrivalOrder = offset === -2 ? 0 : offset === 2 ? 1 : offset === -1 ? 2 : offset === 1 ? 3 : 4;
       return <BookArrival key={`${categoryId}-slot-${slot}`} order={arrivalOrder} runKey={Number(active)} enabled={active && phase === 'browsing'} allowEntrance={!entranceConsumed.current && arrival.current.slots.has(slot) && performance.now() - arrival.current.started < 1800} launchHeight={launchHeight}>
-      <group visible={visible}><PositionedBook slot={slot} track={track} closedScale={closedScale} openedScale={openedScale} closedY={closedY} progress={selected ? openProgress : closedProgress} wide={wide}>
-        <BookModel title={book.title} category={categoryId} onReady={() => markReady(slot)} openProgress={selected ? openProgress : closedProgress} onCoverClick={visible ? () => select(slot) : undefined}>
+      <group visible={visible}><PositionedBook slot={slot} track={track} closedScale={closedScale} openedScale={openedScale} closedY={closedY} progress={selected ? openProgress : closedProgress} wide={wide} visibleRadius={visibleRadius}>
+        <BookModel title={book.title} category={book.category} cover={book.cover} thumbnail={book.thumbnail} thumbnailFit={book.thumbnailFit} thumbnailInset={book.thumbnailInset} thumbnailBackground={book.thumbnailBackground} coverPeriod={book.coverPeriod} links={{ demo: book.demoUrl, github: book.githubUrl }} linksInteractive={selected && phase === 'browsing'} onReady={() => markReady(slot)} openProgress={selected ? openProgress : closedProgress} onCoverClick={visible ? () => select(slot) : undefined}>
           {selected && leafProgress.map((leaf, j) => <BookLeaf key={`${book.id}-leaf-${j}`} progress={leaf.progress} front={textures[j * 2]} back={textures[j * 2 + 1]} index={j} count={leafProgress.length}
-            onClick={(event) => handlers.onClick(event, j)} onPointerDown={(event) => handlers.onPointerDown(event, j)} onPointerMove={handlers.onPointerMove} onPointerUp={handlers.onPointerUp} onPointerCancel={handlers.onPointerCancel} />)}
+            onClick={(event) => handlers.onClick(event, j)} onPointerDown={(event) => handlers.onPointerDown(event, j)} onPointerMove={handlers.onPointerMove} onPointerUp={handlers.onPointerUp} onPointerCancel={handlers.onPointerCancel} onPointerOver={() => { if (phase === 'reading') document.body.style.cursor = 'pointer'; }} onPointerOut={() => { document.body.style.cursor = ''; }} />)}
         </BookModel>
       </PositionedBook></group></BookArrival>;
     })}
@@ -177,7 +189,7 @@ function Stage({ categoryId, books, openProgress, leafProgress, textures, phase,
   </>;
 }
 
-export function BookExperience({ categoryId, active, prepare = false, motionRef, onStatusChange, closeRequest = 0, onClosed }: Props) {
+function BookExperienceBody({ categoryId, active, prepare = false, motionRef, onStatusChange, closeRequest = 0, onClosed }: Props) {
   const surface = useRef<HTMLDivElement>(null);
   const [prepared, setPrepared] = useState(false);
   const [preparation, setPreparation] = useState({ category: categoryId, ready: false });
@@ -186,13 +198,15 @@ export function BookExperience({ categoryId, active, prepare = false, motionRef,
   const onPrepared = useCallback(() => setPreparation((current) => current.category === categoryId ? { category: categoryId, ready: true } : current), [categoryId]);
   useEffect(() => { if (prepare || active) setPrepared(true); }, [prepare, active]);
   const present = active && stageReady;
-  const books = useMemo(() => categoryId === 'apps' ? [...BOOK_PROJECTS.filter((book) => book.category === 'apps'), ...APP_SAMPLE_PROJECTS] : BOOK_PROJECTS.filter((book) => book.category === categoryId), [categoryId]);
+  const books = useMemo(() => BOOK_PROJECTS.filter((book) => book.category === categoryId), [categoryId]);
   const [indices, setIndices] = useState<Record<BookCategoryId, number>>({ apps: 0, agents: 0, design: 0, internship: 0 });
   const position = indices[categoryId];
   const index = modulo(position, books.length);
   const selected = books[index];
-  const [markdown, setMarkdown] = useState('');
-  const [loaded, setLoaded] = useState(false);
+  const [content, setContent] = useState({ id: '', markdown: '', images: new Map<string, HTMLImageElement>() });
+  const loaded = content.id === selected.id;
+  const markdown = loaded ? content.markdown : '';
+  const images = content.images;
   const [loadError, setLoadError] = useState(false);
   const [phase, setPhase] = useState<Phase>('browsing');
   const phaseRef = useRef<Phase>('browsing');
@@ -202,13 +216,18 @@ export function BookExperience({ categoryId, active, prepare = false, motionRef,
   const alive = useRef(true);
   const callbacks = useRef({ onStatusChange, onClosed }); callbacks.current = { onStatusChange, onClosed };
   const reduced = useRef(false);
-  const pages = useMemo(() => paginateMarkdown(markdown), [markdown]);
+  const documentPages = useMemo(() => selected.format === 'fixed-pages' && markdown ? parseBookDocument(markdown) : null, [markdown, selected.format]);
+  const pages = useMemo(() => documentPages ?? paginateMarkdown(markdown), [documentPages, markdown]);
   const count = Math.max(1, Math.ceil(pages.length / 2));
   const maxSpread = Math.floor(pages.length / 2);
-  const textures = useMemo(() => Array.from({ length: count * 2 }, (_, n) => paperTexture(pages[n] ?? '', pages[n] ? n + 1 : undefined)), [pages, count]);
+  const resources = useMemo(() => Array.from({ length: count * 2 }, (_, n) => {
+    const page = documentPages?.[n];
+    return page ? documentTexture(page, images) : { texture: paperTexture(documentPages ? '' : (pages[n] as string ?? '')), hotspots: [] };
+  }), [documentPages, pages, count, images]);
+  const textures = useMemo(() => resources.map(resource => resource.texture), [resources]);
   useEffect(() => () => textures.forEach((texture) => texture.dispose()), [textures]);
   const [{ progress: openProgress }, openApi] = useSpring(() => ({ progress: 0, config: { tension: 95, friction: 24, clamp: true } }));
-  const [leafProgress, leafApi] = useSprings(count, () => ({ progress: 0, config: { tension: 115, friction: 26, clamp: true } }), [count]);
+  const [leafProgress, leafApi] = useSprings(count, () => ({ progress: 0, config: { mass: .85, tension: 100, friction: 23, clamp: true, precision: .0005 } }), [count]);
   const galleryDrag = useRef<{ x: number; y: number; pointer: number; moving: boolean } | null>(null);
   const horizontalWheel = useRef({ amount: 0, at: 0, committed: 0 });
   const drag = useRef<{ index: number; x: number; y: number; from: number; moved: boolean; pointer: number; target: CaptureTarget } | null>(null);
@@ -225,10 +244,18 @@ export function BookExperience({ categoryId, active, prepare = false, motionRef,
   }, []);
   useEffect(() => {
     const controller = new AbortController();
-    setLoaded(false); setLoadError(false);
+    setLoadError(false);
     fetch(selected.markdown, { signal: controller.signal }).then((response) => { if (!response.ok) throw Error('load'); return response.text(); })
-      .then((text) => { setMarkdown(text); setLoaded(true); })
-      .catch((error) => { if (error.name !== 'AbortError') setLoadError(true); });
+      .then(async (text) => {
+        await document.fonts.load('400 26px "Portfolio Text"').catch(() => []);
+        const decoded = new Map<string, HTMLImageElement>();
+        if (selected.format === 'fixed-pages') {
+          const urls = new Set(parseBookDocument(text).flatMap(page => page.blocks.filter(block => block.type === 'image').map(block => block.src!)));
+          await Promise.all([...urls].map(async url => { const image = new Image(); image.src = url; await image.decode(); decoded.set(url, image); }));
+        }
+        if (!controller.signal.aborted) { setContent({ id: selected.id, markdown: text, images: decoded }); }
+      })
+      .catch((error) => { if (!controller.signal.aborted && error.name !== 'AbortError') setLoadError(true); });
     return () => controller.abort();
   }, [selected]);
   useEffect(() => { spreadRef.current = 0; setSpread(0); leafApi.set({ progress: 0 }); openApi.set({ progress: 0 }); }, [selected]);
@@ -269,7 +296,7 @@ export function BookExperience({ categoryId, active, prepare = false, motionRef,
   const animateLeaf = async (i: number, target: number, commit: boolean) => {
     const id = ++operation.current;
     setMode(commit ? 'turning' : 'settling');
-    await Promise.all(leafApi.start((j) => j === i ? { progress: target, immediate: reduced.current, config: { duration: undefined, tension: 115, friction: 26, clamp: true } } : {}));
+    await Promise.all(leafApi.start((j) => j === i ? { progress: target, immediate: reduced.current, config: { duration: undefined, mass: .85, tension: 100, friction: 23, clamp: true, precision: .0005 } } : {}));
     if (!alive.current || id !== operation.current) return;
     if (commit) { spreadRef.current += target === 1 ? 1 : -1; setSpread(spreadRef.current); }
     setMode('reading');
@@ -280,6 +307,34 @@ export function BookExperience({ categoryId, active, prepare = false, motionRef,
     if (direction < 0 && current === 0) { void closeBook(); return; }
     if (direction > 0 && current >= maxSpread) return;
     void animateLeaf(direction > 0 ? current : current - 1, direction > 0 ? 1 : 0, true);
+  };
+  const jumpTo = async (pageId: string) => {
+    if (phaseRef.current !== 'reading' || !documentPages) return;
+    const page = documentPages.findIndex(page => page.id === pageId);
+    if (page < 0) return;
+    const target = spreadForPage(page);
+    if (target === spreadRef.current) return;
+    const id = ++operation.current;
+    setMode('turning');
+    while (spreadRef.current !== target) {
+      const direction = target > spreadRef.current ? 1 : -1;
+      const leaf = direction > 0 ? spreadRef.current : spreadRef.current - 1;
+      await Promise.all(leafApi.start(j => j === leaf ? { progress: direction > 0 ? 1 : 0, immediate: reduced.current, config: { duration: 440, easing: (t: number) => t * t * (3 - 2 * t) } } : {}));
+      if (!alive.current || id !== operation.current) return;
+      spreadRef.current += direction; setSpread(spreadRef.current);
+    }
+    setMode('reading');
+  };
+  const runAction = (action: BookAction) => {
+    if (phaseRef.current !== 'reading') return;
+    if (action.kind === 'page') void jumpTo(action.target);
+    else window.open(action.target, '_blank', 'noopener,noreferrer');
+  };
+  const pageAction = (event: ThreeEvent<MouseEvent | PointerEvent>, i: number) => {
+    if (!event.uv) return;
+    const back = event.face?.materialIndex === 5;
+    const pageIndex = i * 2 + (back ? 1 : 0);
+    return actionAt(resources[pageIndex]?.hotspots ?? [], event.uv.x, event.uv.y);
   };
   const lastClose = useRef(closeRequest);
   useEffect(() => { if (lastClose.current === closeRequest) return; lastClose.current = closeRequest; void closeLatest.current(); }, [closeRequest]);
@@ -315,12 +370,14 @@ export function BookExperience({ categoryId, active, prepare = false, motionRef,
   }, [active]);
   const step = (direction: number) => {
     if (phaseRef.current !== 'browsing' || books.length < 2) return;
-    setIndices((current) => ({ ...current, [categoryId]: books.length >= 5 ? current[categoryId] + direction : modulo(current[categoryId] + direction, books.length) }));
+    // Keep the rail unbounded: wrap only the displayed project index so a
+    // last-to-first move travels one slot in the requested direction.
+    setIndices((current) => ({ ...current, [categoryId]: current[categoryId] + direction }));
   };
   const handlers: LeafHandlers = {
-    onClick: (event, i) => { event.stopPropagation(); if (performance.now() < suppressClick.current) return; if (i === spreadRef.current) turn(1); else if (i === spreadRef.current - 1) turn(-1); },
+    onClick: (event, i) => { event.stopPropagation(); if (performance.now() < suppressClick.current) return; const action = pageAction(event, i); if (action) { runAction(action); return; } if (i === spreadRef.current) turn(1); else if (i === spreadRef.current - 1) turn(-1); },
     onPointerDown: (event, i) => {
-      event.stopPropagation(); if (phaseRef.current !== 'reading' || !event.uv) return;
+      event.stopPropagation(); if (phaseRef.current !== 'reading' || !event.uv || pageAction(event, i)) return;
       const from = i < spreadRef.current ? 1 : 0;
       if ((from === 0 && (i !== spreadRef.current || spreadRef.current >= maxSpread || event.uv.x < .72)) || (from === 1 && (i !== spreadRef.current - 1 || event.uv.x > .28))) return;
       const target = event.target as unknown as CaptureTarget;
@@ -343,8 +400,12 @@ export function BookExperience({ categoryId, active, prepare = false, motionRef,
     },
     onPointerCancel: (event) => { if (drag.current?.pointer === event.pointerId) cancelLatest.current(); },
   };
+  const [contextLost, setContextLost] = useState(false);
+  const contextCleanup = useRef<(() => void) | null>(null);
+  useEffect(() => () => contextCleanup.current?.(), []);
+  if (contextLost) throw new Error('Book WebGL context lost');
   const publicStatus = phase === 'browsing' ? 'browsing' : phase === 'closing' ? 'returning' : 'reading';
-  return <div ref={surface} className={styles.experience} data-present={present} data-stage-ready={stageReady} data-book-status={publicStatus} data-book-phase={phase} data-book-id={selected.id} data-spread={spread} data-book-count={books.length} data-sample={Boolean(selected.sample)}
+  return <div ref={surface} className={styles.experience} data-present={present} data-stage-ready={stageReady} data-book-status={publicStatus} data-book-phase={phase} data-book-id={selected.id} data-spread={spread} data-book-count={books.length}
     onPointerDownCapture={(event) => {
       if (phaseRef.current !== 'browsing' || books.length < 2 || (event.target instanceof Element && event.target.closest('button,a'))) return;
       if (!galleryDrag.current) galleryDrag.current = { x: event.clientX, y: event.clientY, pointer: event.pointerId, moving: false };
@@ -375,26 +436,47 @@ export function BookExperience({ categoryId, active, prepare = false, motionRef,
       if (Math.abs(wheel.amount) > 45) { step(wheel.amount > 0 ? 1 : -1); wheel.amount = 0; wheel.committed = now; }
     }}>
     <div className={styles.halo} aria-hidden="true" />
-    {prepared && <Canvas frameloop={active ? 'always' : 'demand'} className={styles.canvas} camera={{ position: [0, 0, 8], fov: 25 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true }} onPointerMissed={() => { if (performance.now() >= suppressClick.current) void closeBook(); }}>
+    {prepared && <Canvas fallback={<BookFallback categoryId={categoryId} onStatusChange={onStatusChange} onClosed={onClosed} />} onCreated={({ gl }) => { const lost = () => setContextLost(true); gl.domElement.addEventListener('webglcontextlost', lost, { once: true }); contextCleanup.current = () => gl.domElement.removeEventListener('webglcontextlost', lost); }} frameloop={active ? 'always' : 'demand'} className={styles.canvas} camera={{ position: [0, 0, 8], fov: 25 }} dpr={[1, 1.5]} gl={{ alpha: true, antialias: true }} onPointerMissed={() => { if (performance.now() >= suppressClick.current) void closeBook(); }}>
       <Stage key={categoryId} active={present} onPrepared={onPrepared} categoryId={categoryId} books={books} openProgress={openProgress} leafProgress={leafProgress} textures={textures} phase={phase} handlers={handlers} motionRef={motionRef} position={position} layoutElement={surface} select={(i) => { if (performance.now() < suppressClick.current) return; if (phaseRef.current === 'reading' && spreadRef.current === 0) { void closeBook(); return; } if (phaseRef.current !== 'browsing') return; if (i === position) void openBook(); else setIndices((current) => ({ ...current, [categoryId]: i })); }} />
     </Canvas>}
-    {active && phase === 'browsing' && <div className={styles.controls}>
+    {active && phase === 'browsing' && <div className={styles.browseDock}>
+    <div className={styles.controls}>
       <button onClick={() => step(-1)} disabled={books.length < 2} aria-label="前の作品">←</button>
       <div className={styles.pagination} role="status" aria-live="polite" aria-atomic="true">
-        <span className={styles.readerSummary}>{books.length}冊中{index + 1}冊目、{selected.title}{selected.sample ? '（確認用サンプル）' : ''}</span>
+        <span className={styles.readerSummary}>{books.length}冊中{index + 1}冊目、{selected.title}</span>
         <span key={selected.id} className={styles.currentNumber} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
         <span className={styles.numberDivider} aria-hidden="true">/</span>
         <span className={styles.totalNumber} aria-hidden="true">{String(books.length).padStart(2, '0')}</span>
       </div>
       <button onClick={() => step(1)} disabled={books.length < 2} aria-label="次の作品">→</button>
+    </div>
+      <BookRecommendations categoryId={categoryId} books={books} selectedId={selected.id} onSelect={(book) => {
+        if (phaseRef.current !== 'browsing') return;
+        const target = books.findIndex(candidate => candidate.id === book.id);
+        setIndices(current => ({ ...current, [categoryId]: nearestBookSlot(current[categoryId], target, books.length) }));
+      }} />
     </div>}
+    {active && phase === 'browsing' && (selected.demoUrl || selected.githubUrl) && <div className={styles.coverLinks} aria-label="表紙のリンク">
+      {selected.demoUrl && <a href={selected.demoUrl} target="_blank" rel="noopener noreferrer" onClick={event => event.stopPropagation()}>Demo ↗</a>}
+      {selected.githubUrl && <a href={selected.githubUrl} target="_blank" rel="noopener noreferrer" onClick={event => event.stopPropagation()}>GitHub ↗</a>}
+    </div>}
+    {active && phase !== 'browsing' && documentPages && <nav className={styles.accessibleContents} aria-label="本の目次">
+      {documentPages[0].blocks.filter(block => block.action?.kind === 'page').map(block => <button key={block.action!.target} disabled={phase !== 'reading'} onClick={() => void jumpTo(block.action!.target)}>{block.action!.label}</button>)}
+    </nav>}
     {active && phase !== 'browsing' && <div className={styles.readerControls} aria-label={`${selected.title} の本文操作`}>
       <span className={styles.readerSummary} aria-live="polite">{selected.title} · {spread + 1} / {maxSpread + 1}</span>
+      {documentPages && spread > 0 && <button className={styles.contentsReturn} onClick={() => void jumpTo('contents')} disabled={phase !== 'reading'}>目次へ</button>}
       <button onClick={() => void closeBook()} disabled={phase === 'closing'} aria-label="本を閉じて一覧に戻る">
         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
         {phase === 'closing' ? '閉じています…' : '一覧に戻る'}
       </button>
     </div>}
-    {active && !loaded && <p className={styles.notice} role="status">{loadError ? '本文を読み込めませんでした。画面を再読み込みしてください。' : '本文を準備しています'}</p>}
+    {active && !loaded && loadError && <p className={styles.notice} role="alert">本文を読み込めませんでした。画面を再読み込みしてください。</p>}
   </div>;
+}
+
+export function BookExperience(props: Props) {
+  const available = BOOK_PROJECTS.some(book => book.category === props.categoryId);
+  if (!available) return <BookFallback key={props.categoryId} {...props} empty />;
+  return <BookBoundary fallback={<BookFallback key={props.categoryId} {...props} />}><BookExperienceBody {...props} /></BookBoundary>;
 }

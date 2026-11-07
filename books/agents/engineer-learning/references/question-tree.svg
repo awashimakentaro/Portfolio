@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800">
+  <rect width="1200" height="800" fill="#1b1b1a"/>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0 0 8 4 0 8" fill="none" stroke="#bcb9af" stroke-width="1.4"/></marker></defs>
+  <g font-family="Hiragino Sans,Yu Gothic,sans-serif" fill="#e6e2d9" text-anchor="middle">
+    <text x="340" y="70" font-size="40">疑問を深掘りする</text><text x="920" y="70" font-size="40">理解して戻る</text>
+    <g stroke="#6f6c65" stroke-width="2" fill="#222220">
+      <rect x="120" y="130" width="420" height="110" rx="12"/>
+      <rect x="180" y="355" width="420" height="110" rx="12"/>
+      <rect x="30" y="600" width="310" height="110" rx="12"/><rect x="390" y="600" width="310" height="110" rx="12"/>
+      <rect x="760" y="600" width="370" height="110" rx="12"/><rect x="760" y="355" width="370" height="110" rx="12"/><rect x="760" y="130" width="370" height="110" rx="12"/>
+    </g>
+    <g font-size="44"><text x="330" y="197">元の疑問</text><text x="390" y="422">派生した疑問</text><text x="185" y="666">疑問 A</text><text x="545" y="666">疑問 B</text><text x="945" y="666">調べて理解する</text><text x="945" y="422">親の問いへ戻る</text><text x="945" y="197">元の問いを理解</text></g>
+    <path d="M185 710V755H735V655" stroke="#bcb9af" stroke-width="3" fill="none"/>
+    <g stroke="#bcb9af" stroke-width="3" fill="none" marker-end="url(#arrow)"><path d="M330 240V295H390V348"/><path d="M390 465V530H185V592"/><path d="M390 530H545V592"/><path d="M700 655H750"/><path d="M945 600V475"/><path d="M945 355V250"/></g>
+  </g>
+</svg>

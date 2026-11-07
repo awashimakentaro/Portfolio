@@ -9,10 +9,13 @@
     "prebuild": "npm run assets",
     "build": "next build",
     "start": "next start",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "book:preview": "node scripts/book-preview/server.mjs",
+    "book:check": "node --test scripts/book-preview/content.test.mjs",
+    "book:sync": "node scripts/prepare-books.mjs"
   },
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=22.13.0"
   },
   "dependencies": {
     "@react-spring/three": "^10.1.2",

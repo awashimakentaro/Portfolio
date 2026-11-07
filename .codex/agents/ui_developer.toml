@@ -9,3 +9,6 @@ Orchestratorが明示した承認済みタスクとファイルだけを編集�
 
 プロジェクトSkillのfrontend-designとvercel-react-best-practicesを参照します。実行した検証だけを報告し、別担当ファイルの変更が必要ならOrchestratorへ提案してください。
 """
+
+# 現行契約: src/contracts/book.ts。公開原本はbooks/<category>/<id>/publication.tsとpublished.md。
+# Historyはloop到達後、Contactは0.75秒後、逆方向は移動先到着後。Book障害時はHTML退避とロック解除。
