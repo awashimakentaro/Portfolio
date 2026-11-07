@@ -9,7 +9,7 @@ export default {
     "github": "https://github.com/awashimakentaro/diet"
   },
   "details": {
-    "summary": "AIによる食事入力から栄養・体重・目標管理までつなぐWeb／モバイルアプリ",
+    "summary": "いつもの食事をワンタップで記録し、画像・AI入力でPFC管理の手間を減らす食事管理アプリ",
     "period": "2026年3月〜2026年4月"
   },
   "pages": [
@@ -40,7 +40,7 @@ export default {
     {
       "id": "process-structure",
       "file": "./pages/process-structure.md",
-      "layout": "image-text",
+      "layout": "text",
       "status": "draft"
     },
     {

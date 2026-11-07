@@ -24,25 +24,19 @@ export default {
     {
       "id": "context",
       "file": "./pages/03.md",
-      "layout": "statement",
+      "layout": "image-text",
       "status": "draft"
     },
     {
       "id": "process",
       "file": "./pages/04.md",
-      "layout": "statement",
+      "layout": "text",
       "status": "draft"
     },
     {
-      "id": "process-wireframe",
-      "file": "./pages/10-wireframe.md",
-      "layout": "statement",
-      "status": "draft"
-    },
-    {
-      "id": "process-prototype",
-      "file": "./pages/08-prototype.md",
-      "layout": "statement",
+      "id": "process-after",
+      "file": "./pages/15-process-after.md",
+      "layout": "text",
       "status": "draft"
     },
     {

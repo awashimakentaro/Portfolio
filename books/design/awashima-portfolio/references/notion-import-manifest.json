@@ -1,0 +1,250 @@
+{
+  "parent": {
+    "id": "411c38da-4520-8106-b4d9-d7ddfcd47854",
+    "url": "https://app.notion.com/p/411c38da45208106b4d9d7ddfcd47854?pvs=204"
+  },
+  "importedOn": "2026-11-08",
+  "sourceRoot": "/Users/制作物/UIUXメモ/05_ポートフォリオ",
+  "archive": "docs/process-notes/awashima-portfolio/source",
+  "sourceMarkdownCount": 90,
+  "stageMarkdownCount": 84,
+  "commonMarkdownCount": 6,
+  "commonFiles": [
+    "知識/ポートフォリオを作るまでの一連の作業の流れ/分かったこと.md",
+    "知識/ポートフォリオを作るまでの一連の作業の流れ/分からないこと.md",
+    "知識/ポートフォリオを作るまでの一連の作業の流れ/参考リンク.md",
+    "知識/ポートフォリオを作るまでの一連の作業の流れ/学ぶ理由.md",
+    "知識/ポートフォリオを作るまでの一連の作業の流れ/実践記録.md",
+    "知識/ポートフォリオを作るまでの一連の作業の流れ/手順メモ.md"
+  ],
+  "visibility": "Created under the existing private draft. Public access has not been enabled or verified.",
+  "pages": [
+    {
+      "stage": "01",
+      "title": "01 企画・要件定義",
+      "id": "411c38da-4520-81a5-9025-e8d9ec6f30e1",
+      "url": "https://app.notion.com/p/411c38da452081a59025e8d9ec6f30e1?pvs=204",
+      "sourceFiles": [
+        "01_企画・要件定義/企画・要件定義.md",
+        "01_企画・要件定義/知識/企画・要件定義の進め方/分かったこと.md",
+        "01_企画・要件定義/知識/企画・要件定義の進め方/分からないこと.md",
+        "01_企画・要件定義/知識/企画・要件定義の進め方/参考リンク.md",
+        "01_企画・要件定義/知識/企画・要件定義の進め方/学ぶ理由.md",
+        "01_企画・要件定義/知識/企画・要件定義の進め方/実践記録.md"
+      ],
+      "readback": {
+        "toggles": 6,
+        "allDocumentTitlesPresent": true,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "02",
+      "title": "02 ユーザー調査・課題整理",
+      "id": "411c38da-4520-8183-a62f-e652e807d860",
+      "url": "https://app.notion.com/p/411c38da45208183a62fe652e807d860?pvs=204",
+      "sourceFiles": [
+        "02_ユーザー調査・課題整理/フォーム調査項目.md",
+        "02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/分かったこと.md",
+        "02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/分からないこと.md",
+        "02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/参考リンク.md",
+        "02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/学ぶ理由.md",
+        "02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/実践記録.md",
+        "02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/手順メモ.md",
+        "02_ユーザー調査・課題整理/知識/ユーザー調査・課題整理/分かったこと.md",
+        "02_ユーザー調査・課題整理/知識/ユーザー調査・課題整理/分からないこと.md",
+        "02_ユーザー調査・課題整理/知識/ユーザー調査・課題整理/参考リンク.md",
+        "02_ユーザー調査・課題整理/知識/ユーザー調査・課題整理/学ぶ理由.md",
+        "02_ユーザー調査・課題整理/知識/ユーザー調査・課題整理/実践記録.md",
+        "02_ユーザー調査・課題整理/調査結果・課題整理.md"
+      ],
+      "readback": {
+        "toggles": 13,
+        "allDocumentTitlesPresent": true,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "03",
+      "title": "03 機能・情報設計",
+      "id": "411c38da-4520-81d5-971b-ebc28e726475",
+      "url": "https://app.notion.com/p/411c38da452081d5971bebc28e726475?pvs=204",
+      "sourceFiles": [
+        "03_機能・情報設計/企画・要件定義_最終版.md",
+        "03_機能・情報設計/機能・情報設計.md",
+        "03_機能・情報設計/知識/機能・情報設計の進め方/分かったこと.md",
+        "03_機能・情報設計/知識/機能・情報設計の進め方/分からないこと.md",
+        "03_機能・情報設計/知識/機能・情報設計の進め方/参考リンク.md",
+        "03_機能・情報設計/知識/機能・情報設計の進め方/学ぶ理由.md",
+        "03_機能・情報設計/知識/機能・情報設計の進め方/実践記録.md"
+      ],
+      "readback": {
+        "toggles": 7,
+        "allDocumentTitlesPresent": true,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "04",
+      "title": "04 ユーザーフロー・操作設計",
+      "id": "411c38da-4520-8131-9c50-de609a3cf5ff",
+      "url": "https://app.notion.com/p/411c38da452081319c50de609a3cf5ff?pvs=204",
+      "sourceFiles": [
+        "04_ユーザーフロー・インタラクション設計/ユーザーフロー・インタラクション設計.md"
+      ],
+      "readback": {
+        "toggles": 1,
+        "allDocumentTitlesPresent": true,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "05",
+      "title": "05 ワイヤーフレーム制作",
+      "id": "411c38da-4520-81a5-817b-d00bf8f144d7",
+      "url": "https://app.notion.com/p/411c38da452081a5817bd00bf8f144d7?pvs=204",
+      "sourceFiles": [
+        "05_ワイヤーフレーム制作/ワイヤーフレーム制作.md",
+        "05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/分かったこと.md",
+        "05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/分からないこと.md",
+        "05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/参考リンク.md",
+        "05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/学ぶ理由.md",
+        "05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/実践記録.md",
+        "05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/手順メモ.md"
+      ],
+      "readback": {
+        "toggles": 7,
+        "allDocumentTitlesPresent": true,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "06",
+      "title": "06 UI・ビジュアルデザイン",
+      "id": "411c38da-4520-81d2-9b24-e03a651a4477",
+      "url": "https://app.notion.com/p/411c38da452081d29b24e03a651a4477?pvs=204",
+      "sourceFiles": [
+        "06_UI・ビジュアルデザイン制作/UI・ビジュアルデザイン制作.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/インターンシップ/デザイン案/A案.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/インターンシップ/最終確定.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/グローバルナビゲーション/デザイン案/A案.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/グローバルナビゲーション/最終確定.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/コンタクト/デザイン案/A案.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/コンタクト/最終確定.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/プロフィール/デザイン案/A案.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/プロフィール/最終確定.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/ワークス/デザイン案/A案.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/ワークス/最終確定.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/最終確定.md",
+        "06_UI・ビジュアルデザイン制作/トップページPC/最終確定v2.md"
+      ],
+      "readback": {
+        "toggles": 13,
+        "allDocumentTitlesPresent": true,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "07",
+      "title": "07 プロトタイプ制作・検討",
+      "id": "411c38da-4520-8137-a94f-d2098552bcdc",
+      "url": "https://app.notion.com/p/411c38da45208137a94fd2098552bcdc?pvs=204",
+      "sourceFiles": [
+        "07_プロトタイプ制作・検証/Figma AI用プロトタイプ生成プロンプト.md",
+        "07_プロトタイプ制作・検証/プロトタイプ制作・検証.md"
+      ],
+      "readback": {
+        "toggles": 2,
+        "allDocumentTitlesPresent": true,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "08",
+      "title": "08 Web・3D演出実装",
+      "id": "411c38da-4520-8115-a76e-c04ca99adc14",
+      "url": "https://app.notion.com/p/411c38da45208115a76ec04ca99adc14?pvs=204",
+      "sourceFiles": [
+        "08_Webアプリ・3D演出実装/01_画面設計_Figma/README.md",
+        "08_Webアプリ・3D演出実装/01_画面設計_Figma/成果物.md",
+        "08_Webアプリ・3D演出実装/01_画面設計_Figma/最新/流れ.md",
+        "08_Webアプリ・3D演出実装/01_画面設計_Figma/進捗.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/AI動画キャラクター_Web実装計画.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/README.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/一連の流れ/アニメーション実装計画.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/動画生成素材_宇宙ポートフォリオV1/Kling用プロンプト.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/技術検証メモ.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/最終本/3D_BOOK_REQUIREMENTS_AND_DESIGN.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/分かったこと.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/分からないこと.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/参考リンク.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/学ぶ理由.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/実践記録.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/手順メモ.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/分かったこと.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/分からないこと.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/参考リンク.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/学ぶ理由.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/実践記録.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/手順メモ.md",
+        "08_Webアプリ・3D演出実装/02_3D制作_技術検証/進捗.md",
+        "08_Webアプリ・3D演出実装/03_Web統合実装/01_3Dスクロール試作/README.md",
+        "08_Webアプリ・3D演出実装/03_Web統合実装/02_カーソル追従フレーム試作/README.md",
+        "08_Webアプリ・3D演出実装/03_Web統合実装/04_本型ポートフォリオ試作/README.md",
+        "08_Webアプリ・3D演出実装/03_Web統合実装/README.md",
+        "08_Webアプリ・3D演出実装/03_Web統合実装/進捗.md",
+        "08_Webアプリ・3D演出実装/04_検証_改善/README.md",
+        "08_Webアプリ・3D演出実装/04_検証_改善/進捗.md",
+        "08_Webアプリ・3D演出実装/Webアプリ・3D演出実装.md",
+        "08_Webアプリ・3D演出実装/実装計画.md"
+      ],
+      "readback": {
+        "toggles": 32,
+        "allDocumentTitlesPresent": true,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "09",
+      "title": "09 公開・ユーザーテスト",
+      "id": "411c38da-4520-8194-afe3-cebc5c4959e7",
+      "url": "https://app.notion.com/p/411c38da45208194afe3cebc5c4959e7?pvs=204",
+      "sourceFiles": [
+        "09_公開・ユーザーテスト/公開・ユーザーテスト.md"
+      ],
+      "readback": {
+        "toggles": 1,
+        "allDocumentTitlesPresent": true,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "10",
+      "title": "10 分析・改善",
+      "id": "411c38da-4520-8116-a48b-e1e6769dff4e",
+      "url": "https://app.notion.com/p/411c38da45208116a48be1e6769dff4e?pvs=204",
+      "sourceFiles": [
+        "10_分析・改善/分析・改善.md"
+      ],
+      "readback": {
+        "toggles": 1,
+        "allDocumentTitlesPresent": true,
+        "truncated": false
+      }
+    },
+    {
+      "stage": "11",
+      "title": "11 ケーススタディ作成",
+      "id": "411c38da-4520-813b-a821-c1598aeaad3f",
+      "url": "https://app.notion.com/p/411c38da4520813ba821c1598aeaad3f?pvs=204",
+      "sourceFiles": [
+        "11_ケーススタディ作成/ケーススタディ作成.md"
+      ],
+      "readback": {
+        "toggles": 1,
+        "allDocumentTitlesPresent": true,
+        "truncated": false
+      }
+    }
+  ]
+}
