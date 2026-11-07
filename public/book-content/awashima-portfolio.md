@@ -47,7 +47,7 @@
 
 紹介する情報を揃え、世界観と分かりやすさを組み合わせる方針へ。
 
-[制作過程・判断の記録を読む](https://github.com/awashimakentaro/Portfolio/tree/1280cbced472dcf8b9cb1eaa138e9b71e42b3069/docs/process-notes/awashima-portfolio)
+[制作過程・判断の記録を読む](https://github.com/awashimakentaro/Portfolio/tree/main/docs/process-notes/awashima-portfolio)
 
 
 

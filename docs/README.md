@@ -12,7 +12,7 @@
 | [本の制作場所](../books/README.md) | 4カテゴリ7冊の原稿・画像・リンク・表紙設定、テンプレート、公開スナップショット |
 | [本の掲載内容・制作フロー](book-content-requirements.md) | 作品／インターンの情報構成、回答による原稿作成、確定事項と未実装範囲 |
 | [本制作レシピの設計](book-recipes-design.md) | Apps・Agents・Design・Internshipの質問・章構成・共通Skillとの分担 |
-| [Portfolioの制作過程](process-notes/awashima-portfolio/README.md) | 企画・調査・ワイヤー・デザイン・試作・実装の参考メモ90件。現行仕様とは区別 |
+| [Portfolioの制作過程](process-notes/awashima-portfolio/README.md) | 企画〜実装の主要資料15件。各工程1〜2件に整理。計画・旧案と現行実装は区別 |
 | [現在の参照資料](reference-materials/README.md) | 採用画像、表紙、Figma、Book試作の出典 |
 | [過去資料](archive/README.md) | 旧案と進捗メモ。現在の実装要件には使わない |
 
