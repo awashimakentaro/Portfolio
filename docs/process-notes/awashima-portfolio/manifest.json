@@ -1,0 +1,584 @@
+{
+  "captured_on": "2026-11-07",
+  "scope": "制作過程のMarkdown。現行仕様の正本ではない。",
+  "files": [
+    {
+      "path": "source/01_企画・要件定義/企画・要件定義.md",
+      "source_sha256": "31405ab22b18ef2873915dc31e3f4d727c864a03f1b9292d4a50a955f46c3a49",
+      "published_sha256": "229780b649fad155fbd363b705d3e5e9f3926170604871aa613a82739b5e9f34",
+      "adjusted_for_publication": true
+    },
+    {
+      "path": "source/01_企画・要件定義/知識/企画・要件定義の進め方/分かったこと.md",
+      "source_sha256": "3d55523ace8ac17b9e91848644fd22bfd93bb338ba70ce8f0342c0d83af5b614",
+      "published_sha256": "3d55523ace8ac17b9e91848644fd22bfd93bb338ba70ce8f0342c0d83af5b614",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/01_企画・要件定義/知識/企画・要件定義の進め方/分からないこと.md",
+      "source_sha256": "2312928873cd874236dc58dabab18c3097b96f97e6dc11d6c40569195a1ae58d",
+      "published_sha256": "2312928873cd874236dc58dabab18c3097b96f97e6dc11d6c40569195a1ae58d",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/01_企画・要件定義/知識/企画・要件定義の進め方/参考リンク.md",
+      "source_sha256": "b0cfae12e6dda68a707fa13454f12fe575f0f63b70c636597467576417f0f191",
+      "published_sha256": "0fa983a1551034e99cb2bf17abc2b8d9ec2a6d33bfde58d1bf37df239a25267d",
+      "adjusted_for_publication": true
+    },
+    {
+      "path": "source/01_企画・要件定義/知識/企画・要件定義の進め方/学ぶ理由.md",
+      "source_sha256": "821514636a8c23a1b9187d3e824b6ede0923bce34f28173168a12dbabe136163",
+      "published_sha256": "821514636a8c23a1b9187d3e824b6ede0923bce34f28173168a12dbabe136163",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/01_企画・要件定義/知識/企画・要件定義の進め方/実践記録.md",
+      "source_sha256": "b999818ffd9f94bcda965dc8406322e80fe2d3a7f1117d106a0e78f611ce98cf",
+      "published_sha256": "b999818ffd9f94bcda965dc8406322e80fe2d3a7f1117d106a0e78f611ce98cf",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/フォーム調査項目.md",
+      "source_sha256": "7cf93e4e19a88fcf8452f33df51a0e049979520f75199b2d24770d99bbf91c78",
+      "published_sha256": "7cf93e4e19a88fcf8452f33df51a0e049979520f75199b2d24770d99bbf91c78",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/分かったこと.md",
+      "source_sha256": "153d5bea9eac0ab6d211a0f0f179ead72b8d8a0a051ecf9c45dd33bb5552f33e",
+      "published_sha256": "153d5bea9eac0ab6d211a0f0f179ead72b8d8a0a051ecf9c45dd33bb5552f33e",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/分からないこと.md",
+      "source_sha256": "0da7565a25bdc33dc92a1ebe86aa373398a1eda0b3588dae8edec5c12416d4c4",
+      "published_sha256": "0da7565a25bdc33dc92a1ebe86aa373398a1eda0b3588dae8edec5c12416d4c4",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/参考リンク.md",
+      "source_sha256": "1eda2044abcc5ec8d9ec185b475156a077d6a176f1092bcd7e387b1d3e2ddca9",
+      "published_sha256": "4ba52df2cfdacc671ed456244e6a21805325007e2504e2f538c7e55f1edfe5fe",
+      "adjusted_for_publication": true
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/学ぶ理由.md",
+      "source_sha256": "2184dbc8febdb20ea1aa4c39ecb3c6ddfbaae326f0685067bd060724c6388ac1",
+      "published_sha256": "2184dbc8febdb20ea1aa4c39ecb3c6ddfbaae326f0685067bd060724c6388ac1",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/実践記録.md",
+      "source_sha256": "77f49580300c9c9c4ebedab941c0d68666acddbc36316f1ad236978deddf5ad2",
+      "published_sha256": "c1d983a37e90097996b3ae2df4100546fd622f49cd5014def69a5e1900417c4a",
+      "adjusted_for_publication": true
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/手順メモ.md",
+      "source_sha256": "6494d79eff9e7020137ca54212a0a84f5f82164572b353bf885488608264f7d7",
+      "published_sha256": "6494d79eff9e7020137ca54212a0a84f5f82164572b353bf885488608264f7d7",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/知識/ユーザー調査・課題整理/分かったこと.md",
+      "source_sha256": "b9cb2605599330860b0b861a4e72915bba194bd7af58e02345fc44a2a5e94a41",
+      "published_sha256": "bca42fa7d15136b226621a547826fccfedc66ca6bd165d710fee86025f474dc2",
+      "adjusted_for_publication": true
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/知識/ユーザー調査・課題整理/分からないこと.md",
+      "source_sha256": "62e589aa88a1538171c9e7b6865463a0618ab4b6e22aac1f48a1ffdf8e52565d",
+      "published_sha256": "62e589aa88a1538171c9e7b6865463a0618ab4b6e22aac1f48a1ffdf8e52565d",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/知識/ユーザー調査・課題整理/参考リンク.md",
+      "source_sha256": "51134bf6429bad8a6a359a5d0d35fd1d83344a1b6e35c0909f7d89d5a98f70f1",
+      "published_sha256": "51134bf6429bad8a6a359a5d0d35fd1d83344a1b6e35c0909f7d89d5a98f70f1",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/知識/ユーザー調査・課題整理/学ぶ理由.md",
+      "source_sha256": "f04eb16438f430f7b6e695b3c7c4cacd088d5e74a2f5f29fcc34094df8264032",
+      "published_sha256": "f04eb16438f430f7b6e695b3c7c4cacd088d5e74a2f5f29fcc34094df8264032",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/知識/ユーザー調査・課題整理/実践記録.md",
+      "source_sha256": "010acbe81a9ddfcc4e9a001fd9cbf846327035cd8b6af0917ef20314853518ed",
+      "published_sha256": "010acbe81a9ddfcc4e9a001fd9cbf846327035cd8b6af0917ef20314853518ed",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/02_ユーザー調査・課題整理/調査結果・課題整理.md",
+      "source_sha256": "9d4af356e88d092f1850a5dad8732e4b45fdc1cb5e26076eb0e95887f66a667c",
+      "published_sha256": "7e1ff1d631c0fa84dd4ec549ef5c3caa7f00d45f253c674c61410c3c9067468a",
+      "adjusted_for_publication": true
+    },
+    {
+      "path": "source/03_機能・情報設計/企画・要件定義_最終版.md",
+      "source_sha256": "88fad776922ab4ddbbdb7200d815a961a15f4dcdec35e62aba15b25a3caccf6f",
+      "published_sha256": "88fad776922ab4ddbbdb7200d815a961a15f4dcdec35e62aba15b25a3caccf6f",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/03_機能・情報設計/機能・情報設計.md",
+      "source_sha256": "1deda151a6a165c40485ccb4dcfa62430a8354f5b226f0fc86213b8d3002fbc3",
+      "published_sha256": "1deda151a6a165c40485ccb4dcfa62430a8354f5b226f0fc86213b8d3002fbc3",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/03_機能・情報設計/知識/機能・情報設計の進め方/分かったこと.md",
+      "source_sha256": "66dcd52a26aaf47bee377cf39afdf0cd6c17807509105be43e4f540ca8e8d755",
+      "published_sha256": "66dcd52a26aaf47bee377cf39afdf0cd6c17807509105be43e4f540ca8e8d755",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/03_機能・情報設計/知識/機能・情報設計の進め方/分からないこと.md",
+      "source_sha256": "62accf87a15a7438681e797d3d34cf8492d61620565e62ffd547b9c8ed9d2d80",
+      "published_sha256": "62accf87a15a7438681e797d3d34cf8492d61620565e62ffd547b9c8ed9d2d80",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/03_機能・情報設計/知識/機能・情報設計の進め方/参考リンク.md",
+      "source_sha256": "8fdddc75ac0c3714791f8b6827a3cf41a9279935ff6c304b3a125ca0917b9b6e",
+      "published_sha256": "8fdddc75ac0c3714791f8b6827a3cf41a9279935ff6c304b3a125ca0917b9b6e",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/03_機能・情報設計/知識/機能・情報設計の進め方/学ぶ理由.md",
+      "source_sha256": "849c248ae71b2257ce1f56ff19b9817ee406621878dfafd87b7079f4c994855b",
+      "published_sha256": "849c248ae71b2257ce1f56ff19b9817ee406621878dfafd87b7079f4c994855b",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/03_機能・情報設計/知識/機能・情報設計の進め方/実践記録.md",
+      "source_sha256": "37b1211bbf8962f32b381a644008d20572b307cf4a879f846b6275202405271e",
+      "published_sha256": "37b1211bbf8962f32b381a644008d20572b307cf4a879f846b6275202405271e",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/04_ユーザーフロー・インタラクション設計/ユーザーフロー・インタラクション設計.md",
+      "source_sha256": "d51aa98a795a420eb98f65d0637a04967f8da13fbe2cf2497c0716acd144b58a",
+      "published_sha256": "d51aa98a795a420eb98f65d0637a04967f8da13fbe2cf2497c0716acd144b58a",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/05_ワイヤーフレーム制作/ワイヤーフレーム制作.md",
+      "source_sha256": "d3da5a1e2ce7aec93412302f46ea2c5e54e1cc5f4c0f460cd91dbf6f805157df",
+      "published_sha256": "d3da5a1e2ce7aec93412302f46ea2c5e54e1cc5f4c0f460cd91dbf6f805157df",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/分かったこと.md",
+      "source_sha256": "74273a10a75eb9b20010199b06d6690c89f868b9bdda5c9e8901f5c292d91164",
+      "published_sha256": "74273a10a75eb9b20010199b06d6690c89f868b9bdda5c9e8901f5c292d91164",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/分からないこと.md",
+      "source_sha256": "b71dea39cb49e36e506083f03e3e18febe4a5e28fbc99132281b209e8a2763e8",
+      "published_sha256": "b71dea39cb49e36e506083f03e3e18febe4a5e28fbc99132281b209e8a2763e8",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/参考リンク.md",
+      "source_sha256": "9e8f0095b8cda5e7dbd5c172d98957f419dbbb205042352fc2ada55b73c7eb96",
+      "published_sha256": "9e8f0095b8cda5e7dbd5c172d98957f419dbbb205042352fc2ada55b73c7eb96",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/学ぶ理由.md",
+      "source_sha256": "4a52341a69891f011ed04aab4374bd1009a5220c53b9c1fbb812d4aa25c729b6",
+      "published_sha256": "4a52341a69891f011ed04aab4374bd1009a5220c53b9c1fbb812d4aa25c729b6",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/実践記録.md",
+      "source_sha256": "f8a523aa13987ff60bded196612a7383d745e1140e184e981c4a8f2db487e6db",
+      "published_sha256": "f8a523aa13987ff60bded196612a7383d745e1140e184e981c4a8f2db487e6db",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/05_ワイヤーフレーム制作/知識/ワイヤーフレームの作り方とAI活用/手順メモ.md",
+      "source_sha256": "1964e475fd2bab07966b6da1e8ff066d7a96525747c4d4f4e845b36be30d5212",
+      "published_sha256": "1964e475fd2bab07966b6da1e8ff066d7a96525747c4d4f4e845b36be30d5212",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/UI・ビジュアルデザイン制作.md",
+      "source_sha256": "6b8970ccce32af7cb80cf413bacef2381677dd9cd7c3985516efc02efd0b38c3",
+      "published_sha256": "6b8970ccce32af7cb80cf413bacef2381677dd9cd7c3985516efc02efd0b38c3",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/インターンシップ/デザイン案/A案.md",
+      "source_sha256": "14a54f34e97cdbda1648ab8f49428570c19e2feb228f92f3356dc34ee9fe66b9",
+      "published_sha256": "14a54f34e97cdbda1648ab8f49428570c19e2feb228f92f3356dc34ee9fe66b9",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/インターンシップ/最終確定.md",
+      "source_sha256": "1ad596f47cdf21f6a39c8942368c315cd1056f28dafc519bd6018c38df268c0b",
+      "published_sha256": "1ad596f47cdf21f6a39c8942368c315cd1056f28dafc519bd6018c38df268c0b",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/グローバルナビゲーション/デザイン案/A案.md",
+      "source_sha256": "14eba2b5cf8411e251d59fbd535431cc419280337b816507c63e43cc4abc9d8e",
+      "published_sha256": "14eba2b5cf8411e251d59fbd535431cc419280337b816507c63e43cc4abc9d8e",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/グローバルナビゲーション/最終確定.md",
+      "source_sha256": "daf953c57041280753099af89c84bb3f493ff5636f2290a86e4374eb3459e882",
+      "published_sha256": "daf953c57041280753099af89c84bb3f493ff5636f2290a86e4374eb3459e882",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/コンタクト/デザイン案/A案.md",
+      "source_sha256": "24ae6c7a60e7bd51363aba10ebb688b9d3b97a0e551b69a8185462f054223a96",
+      "published_sha256": "24ae6c7a60e7bd51363aba10ebb688b9d3b97a0e551b69a8185462f054223a96",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/コンタクト/最終確定.md",
+      "source_sha256": "da3b499136928db35a6beb3768a21ef69f0c72b9a4c7d7a7d28849e9cd7162d2",
+      "published_sha256": "da3b499136928db35a6beb3768a21ef69f0c72b9a4c7d7a7d28849e9cd7162d2",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/プロフィール/デザイン案/A案.md",
+      "source_sha256": "4ed9810374f23fd73c2b59622353e87633ec681955a27f3b26c14beb8401a867",
+      "published_sha256": "4ed9810374f23fd73c2b59622353e87633ec681955a27f3b26c14beb8401a867",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/プロフィール/最終確定.md",
+      "source_sha256": "575560b179dfb2ac4e061e64e2a59404b9bac4096b4b3ef6a13ef2c6fa8302b6",
+      "published_sha256": "575560b179dfb2ac4e061e64e2a59404b9bac4096b4b3ef6a13ef2c6fa8302b6",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/ワークス/デザイン案/A案.md",
+      "source_sha256": "1046c753bb737ba438da68272ea98ba41c71308470c4ac3bedc9d40ae12803eb",
+      "published_sha256": "1046c753bb737ba438da68272ea98ba41c71308470c4ac3bedc9d40ae12803eb",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/ワークス/最終確定.md",
+      "source_sha256": "0bb003a8c0dfc82fd22805ab8a9a03d30b86ba3dc447ad6cd11d78cb40a8a42a",
+      "published_sha256": "0bb003a8c0dfc82fd22805ab8a9a03d30b86ba3dc447ad6cd11d78cb40a8a42a",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/最終確定.md",
+      "source_sha256": "3297b1c5e87f26cad09a9025705e806205251bf42449a0e118b4be52b0eeda2e",
+      "published_sha256": "3297b1c5e87f26cad09a9025705e806205251bf42449a0e118b4be52b0eeda2e",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/06_UI・ビジュアルデザイン制作/トップページPC/最終確定v2.md",
+      "source_sha256": "a534f05085229a495f39a4cf55ecb371e8ed1f249d03f01c1168ec00ee84debf",
+      "published_sha256": "a534f05085229a495f39a4cf55ecb371e8ed1f249d03f01c1168ec00ee84debf",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/07_プロトタイプ制作・検証/Figma AI用プロトタイプ生成プロンプト.md",
+      "source_sha256": "1a7147204d2dc29fefd118cd2d7a10a5198124408825cf7197e5b77367af1a9b",
+      "published_sha256": "1a7147204d2dc29fefd118cd2d7a10a5198124408825cf7197e5b77367af1a9b",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/07_プロトタイプ制作・検証/プロトタイプ制作・検証.md",
+      "source_sha256": "28fc1bf8abc27387bb970895c3c60e41ced40c4bd85fd0064cbe509d5a6517e6",
+      "published_sha256": "28fc1bf8abc27387bb970895c3c60e41ced40c4bd85fd0064cbe509d5a6517e6",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/01_画面設計_Figma/README.md",
+      "source_sha256": "412586a1cf276ca0a06bfdb165dbee1c8cfaeb816723ed25c9f5565a4512f523",
+      "published_sha256": "412586a1cf276ca0a06bfdb165dbee1c8cfaeb816723ed25c9f5565a4512f523",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/01_画面設計_Figma/成果物.md",
+      "source_sha256": "3bad83680ee2782fbcba1258c2846c41240df85a1443ff317a7cc7e8aaa82376",
+      "published_sha256": "3bad83680ee2782fbcba1258c2846c41240df85a1443ff317a7cc7e8aaa82376",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/01_画面設計_Figma/最新/流れ.md",
+      "source_sha256": "6e419dd084a90d7868761f0a07afaf28b7c8375b96e48a7e987bab327df0337e",
+      "published_sha256": "6e419dd084a90d7868761f0a07afaf28b7c8375b96e48a7e987bab327df0337e",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/01_画面設計_Figma/進捗.md",
+      "source_sha256": "6ce3b18afb4479bc5d9b69f3bade38cda8d2d1211fe8d2599c0941bc45e60c68",
+      "published_sha256": "6ce3b18afb4479bc5d9b69f3bade38cda8d2d1211fe8d2599c0941bc45e60c68",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/AI動画キャラクター_Web実装計画.md",
+      "source_sha256": "1954a307ccadcaef49be769e8b7c0b4a9e3f34b66bcc0a2eaa1025a476eca789",
+      "published_sha256": "1954a307ccadcaef49be769e8b7c0b4a9e3f34b66bcc0a2eaa1025a476eca789",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/README.md",
+      "source_sha256": "bff569f2a1d935012073fd98e7721b84b9e375e7d07d2f9f98b20fdb15105aca",
+      "published_sha256": "bff569f2a1d935012073fd98e7721b84b9e375e7d07d2f9f98b20fdb15105aca",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/一連の流れ/アニメーション実装計画.md",
+      "source_sha256": "bb6dff1789876604d15bbfeb734c058d1676cd08e1422cdfd84112016f027429",
+      "published_sha256": "bb6dff1789876604d15bbfeb734c058d1676cd08e1422cdfd84112016f027429",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/動画生成素材_宇宙ポートフォリオV1/Kling用プロンプト.md",
+      "source_sha256": "fbe8bd8b9a0acc47145cad418bd6c3e74744ebbfd2bd7767cf216b8ad9a743f5",
+      "published_sha256": "fbe8bd8b9a0acc47145cad418bd6c3e74744ebbfd2bd7767cf216b8ad9a743f5",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/技術検証メモ.md",
+      "source_sha256": "7d0449757b547208eaffc0dd83d5258d2ae22a3a293fcdae93457ef009af6354",
+      "published_sha256": "7d0449757b547208eaffc0dd83d5258d2ae22a3a293fcdae93457ef009af6354",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/最終本/3D_BOOK_REQUIREMENTS_AND_DESIGN.md",
+      "source_sha256": "c732284b26addcf87e6c06a8af192ec0c826989d7727478d26a9571edb967123",
+      "published_sha256": "c732284b26addcf87e6c06a8af192ec0c826989d7727478d26a9571edb967123",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/分かったこと.md",
+      "source_sha256": "6af5a0a69ad624dd65840aa1eeb675ee47e6279ed125dd30454a9f2f50291b8e",
+      "published_sha256": "6af5a0a69ad624dd65840aa1eeb675ee47e6279ed125dd30454a9f2f50291b8e",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/分からないこと.md",
+      "source_sha256": "fb603c88ba5847ab865d51c7cf7bedfd9052b0c3c4623eeeec741d4cd42f4480",
+      "published_sha256": "fb603c88ba5847ab865d51c7cf7bedfd9052b0c3c4623eeeec741d4cd42f4480",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/参考リンク.md",
+      "source_sha256": "050f7a642e8b6a744b6488c27ae486bf92cbd99a6ff5ed68d61be880109ebc09",
+      "published_sha256": "8fcea408ee53e271caffbfbd6fc2d3e20480e1411bca13e252761de3dc1cdc5a",
+      "adjusted_for_publication": true
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/学ぶ理由.md",
+      "source_sha256": "e12fbb1686ddf951d0df382d60ca3bccc16b6083cda0d2d6b553b010804f06fb",
+      "published_sha256": "e12fbb1686ddf951d0df382d60ca3bccc16b6083cda0d2d6b553b010804f06fb",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/実践記録.md",
+      "source_sha256": "275c01b0827d0c98180527af868ee2826e4c69d16c323f238068a67d95a03655",
+      "published_sha256": "275c01b0827d0c98180527af868ee2826e4c69d16c323f238068a67d95a03655",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/手順メモ.md",
+      "source_sha256": "b70db57b9e4a1e8c300456851a22d5590a2a641f33e24749f0afa3a4a7b02728",
+      "published_sha256": "b70db57b9e4a1e8c300456851a22d5590a2a641f33e24749f0afa3a4a7b02728",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/分かったこと.md",
+      "source_sha256": "9b66aca169dc74e8fc381c66ae7ef5c6713cd9ef225d58609046ce03e9290e7f",
+      "published_sha256": "9b66aca169dc74e8fc381c66ae7ef5c6713cd9ef225d58609046ce03e9290e7f",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/分からないこと.md",
+      "source_sha256": "1206a9669a871df8411ad31de81d9e26e448c24087ee9a9bea1bf6aaf2ae51a7",
+      "published_sha256": "1206a9669a871df8411ad31de81d9e26e448c24087ee9a9bea1bf6aaf2ae51a7",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/参考リンク.md",
+      "source_sha256": "4815f12b2c611725511dff526812c4334772f3eb1203bcfb5ac5f741e3534b7e",
+      "published_sha256": "4815f12b2c611725511dff526812c4334772f3eb1203bcfb5ac5f741e3534b7e",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/学ぶ理由.md",
+      "source_sha256": "9099e069cab2288feea03331ccb0a45b6bd4abbd6e1a0961990d1718f042afa2",
+      "published_sha256": "9099e069cab2288feea03331ccb0a45b6bd4abbd6e1a0961990d1718f042afa2",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/実践記録.md",
+      "source_sha256": "515cd07767fa5d982accf022d5607fa05f034bd12aae901fb4cf6380bf51e0b7",
+      "published_sha256": "515cd07767fa5d982accf022d5607fa05f034bd12aae901fb4cf6380bf51e0b7",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/段階的なWebアプリ・3D演出実装/手順メモ.md",
+      "source_sha256": "f78e6337393455be2ca27ba3f86884c73806c256439d0bfc7f853b24886d22ee",
+      "published_sha256": "f78e6337393455be2ca27ba3f86884c73806c256439d0bfc7f853b24886d22ee",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/進捗.md",
+      "source_sha256": "94ce59194ac27e6f5510744175ada6678e5fd9c5c9087a32c66fa6fb42f8d722",
+      "published_sha256": "94ce59194ac27e6f5510744175ada6678e5fd9c5c9087a32c66fa6fb42f8d722",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/03_Web統合実装/01_3Dスクロール試作/README.md",
+      "source_sha256": "37457e5cc1c02dd6b59b63f01912247b8e5902f20c5d29c6f500fdcef5a07b6e",
+      "published_sha256": "37457e5cc1c02dd6b59b63f01912247b8e5902f20c5d29c6f500fdcef5a07b6e",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/03_Web統合実装/02_カーソル追従フレーム試作/README.md",
+      "source_sha256": "d01852ebbaf80ec906ceff35e10544f352a0bb8d5483f03917fa4b89c04ec087",
+      "published_sha256": "d01852ebbaf80ec906ceff35e10544f352a0bb8d5483f03917fa4b89c04ec087",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/03_Web統合実装/04_本型ポートフォリオ試作/README.md",
+      "source_sha256": "9a6829bfeaf63ce2ca0b62bb507fec86f4820deb77fc441c2cb97ecebde9235e",
+      "published_sha256": "9a6829bfeaf63ce2ca0b62bb507fec86f4820deb77fc441c2cb97ecebde9235e",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/03_Web統合実装/README.md",
+      "source_sha256": "44502fd706edf18e5c902c4b93a0dca5542998a2c276ba7ab01eb87492f232a4",
+      "published_sha256": "44502fd706edf18e5c902c4b93a0dca5542998a2c276ba7ab01eb87492f232a4",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/03_Web統合実装/進捗.md",
+      "source_sha256": "3ac66695ffdb1580c2b89f28b3101fe8df3264d94c7af48b999239ebff62cc3f",
+      "published_sha256": "3ac66695ffdb1580c2b89f28b3101fe8df3264d94c7af48b999239ebff62cc3f",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/04_検証_改善/README.md",
+      "source_sha256": "9d32bfbb6329f36909d2b711a567d3190a06682f91abe93e7853aad87f9abd57",
+      "published_sha256": "9d32bfbb6329f36909d2b711a567d3190a06682f91abe93e7853aad87f9abd57",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/04_検証_改善/進捗.md",
+      "source_sha256": "8638856f325380f989847e4da3d1f0cad93300c850c76dc3c1cce723628d7605",
+      "published_sha256": "8638856f325380f989847e4da3d1f0cad93300c850c76dc3c1cce723628d7605",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/Webアプリ・3D演出実装.md",
+      "source_sha256": "2d0fe89531293517e21f42ff50d529aaeff4e2b419dfec5d6841db01fe58f473",
+      "published_sha256": "2d0fe89531293517e21f42ff50d529aaeff4e2b419dfec5d6841db01fe58f473",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/08_Webアプリ・3D演出実装/実装計画.md",
+      "source_sha256": "8e9ab53e4e5a214a2ef44686db444026524a768c3c86762fe712ca8323d18167",
+      "published_sha256": "8e9ab53e4e5a214a2ef44686db444026524a768c3c86762fe712ca8323d18167",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/09_公開・ユーザーテスト/公開・ユーザーテスト.md",
+      "source_sha256": "3d70bbf8971f124ce4546d1e2c8a84f0d76514e02e11f3596d427ab22e1262b4",
+      "published_sha256": "3d70bbf8971f124ce4546d1e2c8a84f0d76514e02e11f3596d427ab22e1262b4",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/10_分析・改善/分析・改善.md",
+      "source_sha256": "964d466b3fde92790623caf31a758dbe88d4b0ad9f771cb3ee3429b3b9da997f",
+      "published_sha256": "964d466b3fde92790623caf31a758dbe88d4b0ad9f771cb3ee3429b3b9da997f",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/11_ケーススタディ作成/ケーススタディ作成.md",
+      "source_sha256": "ab0baef3b69985190694ec5fff5044b8e3cd021de6892f411f802db395b7e789",
+      "published_sha256": "ab0baef3b69985190694ec5fff5044b8e3cd021de6892f411f802db395b7e789",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/知識/ポートフォリオを作るまでの一連の作業の流れ/分かったこと.md",
+      "source_sha256": "0e6ab9ff952f3599062e3f26c876bd922b3753870ac483f812d5f22161d47f2c",
+      "published_sha256": "9d010a765cc1654e86999c6812feef48de3690fc9fcf233f0c7bdc05b72e396b",
+      "adjusted_for_publication": true
+    },
+    {
+      "path": "source/知識/ポートフォリオを作るまでの一連の作業の流れ/分からないこと.md",
+      "source_sha256": "8b290295af4d6e4d254150b38b8f08bf394344f68b0dcf8fa5260620c1471483",
+      "published_sha256": "8b290295af4d6e4d254150b38b8f08bf394344f68b0dcf8fa5260620c1471483",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/知識/ポートフォリオを作るまでの一連の作業の流れ/参考リンク.md",
+      "source_sha256": "5210b6915e278d9e04e95f2df39cea4aa379f08f3b37af22013cc287fd994100",
+      "published_sha256": "958090d338c4cbdd9d97f303ac50970c3e6fbaf5c2fa0193ed9be926f62790d4",
+      "adjusted_for_publication": true
+    },
+    {
+      "path": "source/知識/ポートフォリオを作るまでの一連の作業の流れ/学ぶ理由.md",
+      "source_sha256": "f00441a15cf933dd88f612110ed76fd695805f32dcb07db9be9b0efa2f035f89",
+      "published_sha256": "f00441a15cf933dd88f612110ed76fd695805f32dcb07db9be9b0efa2f035f89",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/知識/ポートフォリオを作るまでの一連の作業の流れ/実践記録.md",
+      "source_sha256": "07f53458a5c296ef4fe5a4c9d3df74d9f67c0f46236032684d7c10e9ca3d8510",
+      "published_sha256": "07f53458a5c296ef4fe5a4c9d3df74d9f67c0f46236032684d7c10e9ca3d8510",
+      "adjusted_for_publication": false
+    },
+    {
+      "path": "source/知識/ポートフォリオを作るまでの一連の作業の流れ/手順メモ.md",
+      "source_sha256": "5598481ed96a0550eeac62731275055c1ebfaea7baa67e1b989ba85fe0eb7a17",
+      "published_sha256": "5598481ed96a0550eeac62731275055c1ebfaea7baa67e1b989ba85fe0eb7a17",
+      "adjusted_for_publication": false
+    }
+  ],
+  "omitted_local_links": [
+    {
+      "file": "source/01_企画・要件定義/知識/企画・要件定義の進め方/参考リンク.md",
+      "target": "../../AGENTS.md"
+    },
+    {
+      "file": "source/02_ユーザー調査・課題整理/知識/ユーザー調査データを設計判断へ変換する流れ/参考リンク.md",
+      "target": "../../02_ユーザー調査・課題整理/調査結果・課題整理.md"
+    },
+    {
+      "file": "source/02_ユーザー調査・課題整理/知識/ユーザー調査・課題整理/分かったこと.md",
+      "target": "ユーザー調査・課題整理フロー.png"
+    },
+    {
+      "file": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/参考リンク.md",
+      "target": "../../../../../../../Documents/ChatGPT/01_企画/meshy_turnaround/01_front.png"
+    },
+    {
+      "file": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/参考リンク.md",
+      "target": "../../../../../../../Documents/ChatGPT/01_企画/meshy_turnaround/02_right.png"
+    },
+    {
+      "file": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/参考リンク.md",
+      "target": "../../../../../../../Documents/ChatGPT/01_企画/meshy_turnaround/03_back.png"
+    },
+    {
+      "file": "source/08_Webアプリ・3D演出実装/02_3D制作_技術検証/知識/Meshyでのキャラクター制作とモーション/参考リンク.md",
+      "target": "../../../../../../../Documents/ChatGPT/01_企画/meshy_turnaround/04_left.png"
+    },
+    {
+      "file": "source/知識/ポートフォリオを作るまでの一連の作業の流れ/分かったこと.md",
+      "target": "./ポートフォリオ制作フロー.png"
+    },
+    {
+      "file": "source/知識/ポートフォリオを作るまでの一連の作業の流れ/参考リンク.md",
+      "target": "chatgpt-conversation://6ad6d643-0734-83ee-9625-ef532f1298a0"
+    }
+  ]
+}
