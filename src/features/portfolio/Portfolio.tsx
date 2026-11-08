@@ -8,6 +8,9 @@ import { FrameEngine } from './frame-engine';
 import { FrameAssets, FRAME_ASSET_COUNT } from './frame-assets';
 import { SceneWheelGesture } from '@/lib/scene-wheel-gesture.mjs';
 
+// Last 69 of 120 frame steps: 15 steps (~0.5s) earlier than the 55% timing.
+const HISTORY_REVEAL_PROGRESS = .425;
+
 export function Portfolio() {
   const stage = useRef<HTMLElement>(null);
   const motion = useRef<FrameMotion>({ scene: 'profile', phase: 'playing', progress: 0, loopProgress: 0, direction: 1 });
@@ -43,7 +46,7 @@ export function Portfolio() {
   useEffect(() => {
     if (state.scene === displayScene || state.phase === 'loading' || state.phase === 'error') return;
     // Backward navigation jumps to a decoded loop frame before revealing its UI.
-    // History also waits for its camera move on forward arrival.
+    // Forward History can reveal near the end via the painted-frame callback.
     // `loop` is published only after the first decoded stop frame is painted.
     const returning = motion.current.direction === -1;
     if ((returning || state.scene === 'history') && state.phase !== 'loop') return;
@@ -79,6 +82,12 @@ export function Portfolio() {
         }
       }, (snapshot) => {
         motion.current = snapshot;
+        if (snapshot.scene === 'history' && snapshot.direction === 1 && snapshot.phase === 'playing'
+          && snapshot.progress >= HISTORY_REVEAL_PROGRESS && displaySceneRef.current !== 'history') {
+          // Commit once when a decoded frame crosses the threshold, never on a timer.
+          displaySceneRef.current = 'history';
+          setDisplayScene('history');
+        }
         if (snapshot.scene === displaySceneRef.current) applyMotionStyle(snapshot);
       }, reduced);
       engine.current = player;
@@ -131,6 +140,8 @@ export function Portfolio() {
   }, [loadAttempt, applyMotionStyle]);
   const navigate = useCallback((scene: SceneId) => {
     if (!interactive.current) return;
+    // Ignore the current target before requesting a book close as well.
+    if (engine.current?.getDestination() === scene) return;
     if (bookStatus.current !== 'browsing') {
       pendingNavigation.current = scene;
       setCloseRequest((value) => value + 1);

@@ -97,8 +97,8 @@
     },
     {
       "path": "source/10_分析・改善/分析・改善.md",
-      "source_sha256": "194a436fd3798b6ed5c6bbf5c06babcb3528e624d51f206ceb515350bc9ad135",
-      "published_sha256": "194a436fd3798b6ed5c6bbf5c06babcb3528e624d51f206ceb515350bc9ad135",
+      "source_sha256": "9c7e34f67d90c4d44b08a62552773ead414de76ccc9a84d1d187f9d86e12b855",
+      "published_sha256": "9c7e34f67d90c4d44b08a62552773ead414de76ccc9a84d1d187f9d86e12b855",
       "adjusted_for_publication": false,
       "kind": "updated-original",
       "previous_source_sha256": "964d466b3fde92790623caf31a758dbe88d4b0ad9f771cb3ee3429b3b9da997f",
@@ -113,8 +113,8 @@
     },
     {
       "path": "source/10_分析・改善/2026-11-08-initial-feedback.md",
-      "source_sha256": "e5ca105c5043b609cb99a1ba90de688086f3ee212e664721ec6c8367b52ee43c",
-      "published_sha256": "e5ca105c5043b609cb99a1ba90de688086f3ee212e664721ec6c8367b52ee43c",
+      "source_sha256": "52a0ed5adfac5a7bbe0addd5479393fd3dc57ec324e51983df78eefe48c6e500",
+      "published_sha256": "52a0ed5adfac5a7bbe0addd5479393fd3dc57ec324e51983df78eefe48c6e500",
       "adjusted_for_publication": false,
       "kind": "analysis-record",
       "captured_on": "2026-11-08",

@@ -246,5 +246,17 @@
         "truncated": false
       }
     }
-  ]
+  ],
+  "feedbackUpdate": {
+    "updatedOn": "2026-11-08",
+    "pageId": "411c38da-4520-8116-a48b-e1e6769dff4e",
+    "url": "https://www.notion.so/411c38da45208116a48be1e6769dff4e",
+    "scope": "工程10へ公開後の意見と改善記録を追記し、親の工程09・10の現状を更新。既存90件の取り込み履歴は保持。",
+    "sourceFiles": [
+      "10_分析・改善/2026-11-08-initial-feedback.md",
+      "10_分析・改善/evidence/frame-delivery-2026-11-08.json"
+    ],
+    "visibility": "Browser required sign-in; anonymous access is not available at the linked page. Sharing settings were not changed.",
+    "verification": "Readback confirmed the feedback section; other original memo content was preserved."
+  }
 }

@@ -94,7 +94,7 @@ function Stage({ categoryId, books, openProgress, leafProgress, textures, phase,
   useEffect(() => {
     if (notified.current || readySlots.size < slots.length) return;
     // Upload even the buffered/offscreen covers, not only the materials that
-    // happen to face the camera in the resting pose. Spread transfers over
+    // happen to face the camera in the resting pose. Upload small batches over
     // frames, then compile shaders before starting the visible entrance.
     const gpuTextures = new Set<Texture>();
     scene.traverse((object) => {
@@ -115,7 +115,12 @@ function Stage({ categoryId, books, openProgress, leafProgress, textures, phase,
       if (canceled) return;
       try {
         if (index < pending.length) {
-          gl.initTexture(pending[index++]);
+          const started = performance.now();
+          for (let uploaded = 0; uploaded < 2 && index < pending.length; uploaded++) {
+            gl.initTexture(pending[index++]);
+            // Keep expensive transfers to one per frame; spare frames can do two.
+            if (performance.now() - started >= 4) break;
+          }
           frame = requestAnimationFrame(prepareNext);
           return;
         }
@@ -171,7 +176,9 @@ function Stage({ categoryId, books, openProgress, leafProgress, textures, phase,
       const selected = slot === position;
       const offset = slot - position;
       const visible = selected || phase === 'browsing';
-      const arrivalOrder = offset === -2 ? 0 : offset === 2 ? 1 : offset === -1 ? 2 : offset === 1 ? 3 : 4;
+      // Rank only the visible books; three-book shelves do not wait for hidden outer slots.
+      const arrivalOrder = selected ? visibleRadius * 2
+        : Math.max(0, visibleRadius - Math.abs(offset)) * 2 + (offset > 0 ? 1 : 0);
       return <BookArrival key={`${categoryId}-slot-${slot}`} order={arrivalOrder} runKey={Number(active)} enabled={active && phase === 'browsing'} allowEntrance={!entranceConsumed.current && arrival.current.slots.has(slot) && performance.now() - arrival.current.started < 1800} launchHeight={launchHeight}>
       <group visible={visible}><PositionedBook slot={slot} track={track} closedScale={closedScale} openedScale={openedScale} closedY={closedY} progress={selected ? openProgress : closedProgress} wide={wide} visibleRadius={visibleRadius}>
         <BookModel title={book.title} category={book.category} cover={book.cover} thumbnail={book.thumbnail} thumbnailFit={book.thumbnailFit} thumbnailInset={book.thumbnailInset} thumbnailBackground={book.thumbnailBackground} coverPeriod={book.coverPeriod} links={{ demo: book.demoUrl, github: book.githubUrl }} linksInteractive={selected && phase === 'browsing'} onReady={() => markReady(slot)} openProgress={selected ? openProgress : closedProgress} onCoverClick={visible ? () => select(slot) : undefined}>

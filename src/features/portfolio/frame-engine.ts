@@ -7,7 +7,7 @@ const FADE_MS = 220;
 const CACHE_LIMIT = 96;
 type Entry = { image: HTMLImageElement; status: 'loading' | 'ready' | 'error' };
 type Clip = { directory: string; frame: number; step: 1 | -1; end: number; loop: boolean; destination: number };
-type Fade = { image: HTMLCanvasElement; started: number | null };
+type Fade = { image: HTMLCanvasElement; started: number | null; holdHead: boolean };
 
 /** Owns canvas playback only. All user input is routed by Portfolio. */
 export class FrameEngine {
@@ -35,6 +35,7 @@ export class FrameEngine {
   }
 
   getSnapshot = () => this.state;
+  getDestination = (): SceneId => sceneIds[this.clip.destination];
   private publish(phase: FrameState['phase'], scene = this.state.scene) {
     if (phase === this.state.phase && scene === this.state.scene) return;
     this.state = { scene, phase };
@@ -57,15 +58,16 @@ export class FrameEngine {
     while (this.cache.size > CACHE_LIMIT) this.cache.delete(this.cache.keys().next().value!);
     return entry;
   }
-  private capture(): Fade | null {
+  private capture(holdHead = false): Fade | null {
     if (!this.lastImage || this.reducedMotion) return null;
     const image = document.createElement('canvas');
     image.width = this.canvas.width; image.height = this.canvas.height;
     image.getContext('2d')!.drawImage(this.canvas, 0, 0);
-    return { image, started: null };
+    return { image, started: null, holdHead };
   }
   private begin(clip: Clip, blend: boolean) {
-    this.fade = blend ? this.capture() : null;
+    // Blend to the transition's first frame before advancing its camera move.
+    this.fade = blend ? this.capture(!clip.loop) : null;
     if (this.reducedMotion) clip = { directory: `loop-${clip.destination + 1}`, frame: 1, step: clip.step, end: 121, loop: true, destination: clip.destination };
     this.clip = clip;
     this.framePresented = false;
@@ -78,6 +80,8 @@ export class FrameEngine {
   navigate = (scene: SceneId): MoveResult => {
     if (this.disposed) return 'not-ready';
     const destination = sceneIds.indexOf(scene);
+    // A repeated selection acknowledges the request without restarting playback.
+    if (destination === this.clip.destination) return 'accepted';
     this.goTo(destination, destination < this.clip.destination ? -1 : 1);
     return 'accepted';
   };
@@ -94,7 +98,11 @@ export class FrameEngine {
     this.goTo(destination, direction);
     return 'accepted';
   };
-  retry = () => { this.cache.clear(); this.navigate(sceneIds[this.clip.destination]); };
+  retry = () => {
+    if (this.disposed) return;
+    this.cache.clear();
+    this.goTo(this.clip.destination, 1);
+  };
 
   resize = () => {
     const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -140,6 +148,10 @@ export class FrameEngine {
     const current = this.prepare(clip.directory, clip.frame);
     if (current.status === 'error') { this.publish('error'); return; }
     if (!this.reducedMotion) for (let n = 1; n <= 4; n++) this.prepare(`loop-${n}`, 1);
+    if (!this.reducedMotion && clip.destination < directories.length - 1) {
+      // Prepare the next transition even during the initial Profile animation.
+      for (let frame = 1; frame <= 6; frame++) this.prepare(directories[clip.destination + 1], frame);
+    }
     for (let n = 1; !this.reducedMotion && n <= 28; n++) {
       const ahead = clip.loop ? 2 + ((clip.frame + n - 2) % 120) : clip.frame + clip.step * n;
       if (ahead >= 1 && ahead <= 121) this.prepare(clip.directory, ahead);
@@ -156,6 +168,9 @@ export class FrameEngine {
       this.framePresented = true; this.lastFrameAt = time;
       this.draw(current.image, clip.directory === 'loop-4', time);
       this.publish(clip.loop ? 'loop' : 'playing', sceneIds[clip.destination]);
+    } else if (this.fade?.holdHead) {
+      this.draw(current.image, clip.directory === 'loop-4', time);
+      this.lastFrameAt = time;
     } else if (time - this.lastFrameAt >= FRAME_MS && !this.reducedMotion) {
       if (!clip.loop && clip.frame === clip.end) {
         const destination = clip.destination;
