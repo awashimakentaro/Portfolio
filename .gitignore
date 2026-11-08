@@ -2,6 +2,7 @@ node_modules/
 .next/
 out/
 public/frames/
+public/frame-assets/
 *.tsbuildinfo
 .env*
 !.env.example

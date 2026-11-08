@@ -1,4 +1,5 @@
 import { prepareBooks } from './prepare-books.mjs';
+import { prepareFrameBundles } from './prepare-frame-bundles.mjs';
 import { cp, mkdir, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 const source = new URL('../assets/frames/', import.meta.url);
@@ -12,5 +13,6 @@ for (const group of groups) {
 }
 await mkdir(target, { recursive: true });
 await cp(fileURLToPath(source), fileURLToPath(target), { recursive: true });
+await prepareFrameBundles(fileURLToPath(new URL('../', import.meta.url)));
 const books = await prepareBooks(fileURLToPath(new URL('../', import.meta.url)));
 console.log(`Prepared 8 sequences (968 WebP frames) and ${books.length} published books.`);

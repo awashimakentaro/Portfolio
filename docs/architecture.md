@@ -7,7 +7,7 @@
 | 領域 | 実装・原本 | 責務 |
 |---|---|---|
 | 画面と入力の統合 | src/features/portfolio/Portfolio.tsx | 背景移動、UI表示、初回演出、Book終了後の予約ナビ |
-| 映像取得 | frame-assets.ts | 全圧縮素材の取得・Object URL保持・中断・失敗復旧 |
+| 映像取得 | frame-assets.ts／frame-manifest.generated.json | 区間バンドルの取得・元WebPへの分割・Object URL保持・中断・失敗復旧 |
 | 映像描画 | frame-engine.ts | Canvas、区間再生・逆再生・ループ・描画後通知 |
 | HTML UI | src/features/ui/ | ナビ・4画面の文字・Historyカテゴリ |
 | 3D Book | src/features/history/book/ | カルーセル・Spring状態・SkinnedMesh・GPU資源の管理 |
@@ -28,7 +28,9 @@ FrameEngineはユーザー入力を登録しない。Portfolioが縦入力を集
 
 ## 読み込みと障害対応
 
-FrameAssetsは6並列で全素材を取得し、圧縮BlobのObject URLを保持する。1回の取得は本文受信まで20秒を上限とし、失敗時に1度再試行する。再失敗で進行を停止・解放し、ローディングの再試行操作へ戻す。FrameEngineは96枚上限のデコードキャッシュを使用する。reduced-motionでは代表4枚を取得する。終了時はabort→Engine.dispose→素材URLの解放。
+FrameAssetsは8区間のバンドルを最大6並列で取得し、完了後に元の968枚の圧縮WebPへBlob.sliceで分割する。初回は引き続き全素材の取得を待つ。進捗リングは受信バイト量を基準に更新し、全区間を検証・保持してから100%にする。1回の取得は本文受信まで60秒を上限とし、失敗時に1度再試行する。サイズ不一致も失敗として扱い、再失敗で取得を停止・解放して再試行操作へ戻す。FrameEngineは変更せず、96枚上限のデコードキャッシュを使用する。reduced-motionではバンドルを取得せず、代表4枚だけを取得する。終了時はabort→Engine.dispose→素材URLの解放。
+
+prepare-frame-bundles.mjsが原本WebPを再圧縮せず連結し、public/frame-assetsへ生成。各区間のファイル名は内容ハッシュ付きで、同じ素材ならデプロイを跨いでURLを再利用し、変更時だけURLを変える。vercel.jsonでこの生成ディレクトリに限ってCache-Control: public, max-age=31536000, immutableを設定する。本文MarkdownやHTMLにはこの長期キャッシュを適用しない。配信は既存のVercel CDNを利用し、Cloudflare DNSはそのまま。元画像・再生アルゴリズム・画質・フレーム数は変えない。圧縮映像の合計容量は減らしていないため、初回の時間は回線速度にも依存する。
 
 Book領域は専用エラー境界で障害を受け、WebGL初期化失敗・context loss時はHTML一覧と本文表示へ退避する。その際Bookの画面移動ロックと予約ナビを解放する。公開0冊も準備中の正常表示として扱う。表紙は公開データのURLをBookModelへ渡し、画像キャッシュもURL単位。ページ変形は進捗が不変なら骨・境界の再計算を省く。
 

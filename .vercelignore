@@ -9,6 +9,7 @@ output
 test-results
 .playwright-cli
 public/frames
+public/frame-assets
 *.tsbuildinfo
 .env*
 .DS_Store
