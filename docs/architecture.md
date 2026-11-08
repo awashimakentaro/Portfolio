@@ -8,7 +8,7 @@
 |---|---|---|
 | 画面と入力の統合 | src/features/portfolio/Portfolio.tsx | 背景移動、UI表示、初回演出、Book終了後の予約ナビ |
 | 映像取得 | frame-assets.ts／frame-manifest.generated.json | 区間バンドルの取得・元WebPへの分割・Object URL保持・中断・失敗復旧 |
-| 映像描画 | frame-engine.ts | Canvas、区間再生・逆再生・ループ・描画後通知 |
+| 映像描画 | frame-engine.ts | Canvas、前進区間再生・再生中の移動・戻り先ループへの切替・描画後通知 |
 | HTML UI | src/features/ui/ | ナビ・4画面の文字・Historyカテゴリ |
 | 3D Book | src/features/history/book/ | カルーセル・Spring状態・SkinnedMesh・GPU資源の管理 |
 | 共通契約 | src/contracts/ | SceneId・FrameState・FrameMotion・BookPublicState・BookLifecycleCallbacks |
@@ -20,9 +20,11 @@ PortfolioControllerとInputCoordinatorは独立クラスとして存在せず、
 
 ## 表示と入力
 
-Profile=idle/loop-1、About Me=one/loop-2、History=two/loop-3、Contact=three/loop-4。前進時Profile・About Meは区間開始から、Historyは最初のループフレーム描画後、Contactは約0.75秒後に表示する。逆方向のUIは移動先ループの描画を待つ。移動元の内容は遷移開始でフェードアウトする。
+Profile=idle/loop-1、About Me=one/loop-2、History=two/loop-3、Contact=three/loop-4。前進時Profile・About Meは区間開始から、Historyは最初のループフレーム描画後、Contactは約0.75秒後に表示する。戻る場合は逆再生をせず移動先ループの先頭へ短いフェードで移り、UIはそのフレームの描画を待つ。移動元の内容は遷移開始でフェードアウトする。
 
-FrameEngineはユーザー入力を登録しない。Portfolioが縦入力を集約し、再生中の追加移動を無視する。ナビは再生途中でも目的区間へ直接移動する。Bookがopening/reading/dragging/turning/settling中なら公開reading、closing中はreturning。これらの間は背景移動を禁止し、ナビ指定は最後の1件を保持してBook終了後に実行する。背景ループは継続する。
+FrameEngineはユーザー入力を登録しない。Portfolioが縦入力を集約し、冒頭・区間再生中でも新しい操作で移動できる。SceneWheelGestureが180ms超の静止または方向変更で操作を区切り、閾値30を超えた1操作につき1移動だけ許可する。これにより慣性で全画面を飛ばさない。移動先は表示済みstateではなく要求中のclip.destinationを基準にし、フレームのデコード待ち中も最後の入力を反映する。前方向は移動先の区間を通常再生し、戻り方向はループの先頭へ直接切り替える。ナビも同じ方向別の移動方針を使う。
+
+初回の素材取得中・完了リングの表示中は入力を禁止し、Profileのフェード表示と映像再開が始まる時点からスクロールとHTML UIを有効にする。キー長押しのrepeatは追加移動にしない。Bookがopening/reading/dragging/turning/settling中なら公開reading、closing中はreturning。これらの間は背景移動を禁止し、ナビ指定は最後の1件を保持してBook終了後に実行する。背景ループは継続する。
 
 モーション進捗はrefとCSS変数で渡し、毎フレームReact stateへ流さない。描画後の状態通知でUI同期する。
 

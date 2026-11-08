@@ -20,7 +20,6 @@ export class FrameEngine {
   private paused = false;
   private lastFrameAt = 0;
   private framePresented = false;
-  private blockedUntil = 0;
   private fade: Fade | null = null;
   private lastImage: HTMLImageElement | null = null;
   private lastAlignment = false;
@@ -67,7 +66,7 @@ export class FrameEngine {
   }
   private begin(clip: Clip, blend: boolean) {
     this.fade = blend ? this.capture() : null;
-    if (this.reducedMotion) clip = { directory: `loop-${clip.destination + 1}`, frame: 1, step: 1, end: 121, loop: true, destination: clip.destination };
+    if (this.reducedMotion) clip = { directory: `loop-${clip.destination + 1}`, frame: 1, step: clip.step, end: 121, loop: true, destination: clip.destination };
     this.clip = clip;
     this.framePresented = false;
     this.lastFrameAt = 0;
@@ -79,16 +78,20 @@ export class FrameEngine {
   navigate = (scene: SceneId): MoveResult => {
     if (this.disposed) return 'not-ready';
     const destination = sceneIds.indexOf(scene);
-    this.begin({ directory: directories[destination], frame: 1, step: 1, end: 121, loop: false, destination }, true);
+    this.goTo(destination, destination < this.clip.destination ? -1 : 1);
     return 'accepted';
   };
+  private goTo(destination: number, direction: 1 | -1) {
+    this.begin({ directory: direction === -1 ? `loop-${destination + 1}` : directories[destination], frame: 1, step: direction, end: 121, loop: direction === -1, destination }, true);
+  }
   move = (direction: -1 | 1): MoveResult => {
-    if (this.state.phase !== 'loop' || performance.now() < this.blockedUntil) return 'busy';
-    const current = sceneIds.indexOf(this.state.scene);
+    if (this.disposed || this.paused || this.state.phase === 'error') return 'not-ready';
+    if (!this.lastImage) return 'busy';
+    // Use the requested destination even while its first frame is decoding.
+    const current = this.clip.destination;
     const destination = current + direction;
     if (destination < 0 || destination >= sceneIds.length) return 'boundary';
-    // Backwards traverses the segment that brought us to the current stop.
-    this.begin({ directory: directories[direction === 1 ? destination : current], frame: direction === 1 ? 1 : 121, step: direction, end: direction === 1 ? 121 : 1, loop: false, destination }, true);
+    this.goTo(destination, direction);
     return 'accepted';
   };
   retry = () => { this.cache.clear(); this.navigate(sceneIds[this.clip.destination]); };
@@ -136,6 +139,7 @@ export class FrameEngine {
     const clip = this.clip;
     const current = this.prepare(clip.directory, clip.frame);
     if (current.status === 'error') { this.publish('error'); return; }
+    if (!this.reducedMotion) for (let n = 1; n <= 4; n++) this.prepare(`loop-${n}`, 1);
     for (let n = 1; !this.reducedMotion && n <= 28; n++) {
       const ahead = clip.loop ? 2 + ((clip.frame + n - 2) % 120) : clip.frame + clip.step * n;
       if (ahead >= 1 && ahead <= 121) this.prepare(clip.directory, ahead);
@@ -144,10 +148,8 @@ export class FrameEngine {
       for (let frame = 1; frame <= 12; frame++) this.prepare(`loop-${clip.destination + 1}`, frame);
     }
     if (clip.loop && !this.reducedMotion) {
-      // All bytes are local already. Decode navigation heads and the reverse
-      // boundary while stopped, before the next wheel/navigation gesture.
+      // All bytes are local already. Decode navigation heads while stopped.
       for (const directory of directories) for (let frame = 1; frame <= 6; frame++) this.prepare(directory, frame);
-      if (clip.destination > 0) for (let frame = 116; frame <= 121; frame++) this.prepare(directories[clip.destination], frame);
     }
     if (current.status !== 'ready') { this.schedule(); return; }
     if (!this.framePresented) {
@@ -156,7 +158,6 @@ export class FrameEngine {
       this.publish(clip.loop ? 'loop' : 'playing', sceneIds[clip.destination]);
     } else if (time - this.lastFrameAt >= FRAME_MS && !this.reducedMotion) {
       if (!clip.loop && clip.frame === clip.end) {
-        this.blockedUntil = time + 250;
         const destination = clip.destination;
         this.begin({ directory: `loop-${destination + 1}`, frame: 1, step: 1, end: 121, loop: true, destination }, destination === 3);
         return;

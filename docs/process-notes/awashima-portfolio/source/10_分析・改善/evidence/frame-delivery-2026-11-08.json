@@ -1,0 +1,37 @@
+{
+  "recordedOn": "2026-11-08",
+  "site": "https://www.awashima.dev/",
+  "beforeCommit": "823c079",
+  "afterCommit": "1f52f15",
+  "source": "Captured from output/frame-delivery-check/report.json; original measurements preserved below.",
+  "samplesPerMode": 1,
+  "scope": "Full compressed frame acquisition with Node fetch on the development machine; not browser startup or user-perceived waiting time.",
+  "cacheConditionsMatched": false,
+  "elapsedReductionMs": 7840,
+  "measurement": {
+    "before": {
+      "mode": "before",
+      "environment": "Node fetch from this machine; not a browser or throttled mobile connection",
+      "elapsedMs": 10009,
+      "requests": 968,
+      "cdnStatus": {
+        "HIT": 851,
+        "MISS": 117
+      }
+    },
+    "after": {
+      "mode": "after",
+      "environment": "Node fetch from this machine; not a browser or throttled mobile connection",
+      "elapsedMs": 2169,
+      "requests": 8,
+      "cdnStatus": {
+        "MISS": 8
+      }
+    },
+    "sourceFrameBytes": 30260764,
+    "frameCount": 968,
+    "cacheControl": "public, max-age=31536000, immutable",
+    "servedJavaScriptVerified": true,
+    "browserInteractionVerified": false
+  }
+}

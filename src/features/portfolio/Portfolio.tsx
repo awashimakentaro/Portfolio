@@ -6,6 +6,7 @@ import { PortfolioUI } from '@/features/ui/PortfolioUI';
 import { LoadingScreen, type IntroPhase } from '@/features/ui/LoadingScreen';
 import { FrameEngine } from './frame-engine';
 import { FrameAssets, FRAME_ASSET_COUNT } from './frame-assets';
+import { SceneWheelGesture } from '@/lib/scene-wheel-gesture.mjs';
 
 export function Portfolio() {
   const stage = useRef<HTMLElement>(null);
@@ -35,13 +36,13 @@ export function Portfolio() {
       return;
     }
     setIntroPhase('complete');
-    const reveal = setTimeout(() => { setIntroPhase('revealing'); engine.current?.resume(); }, 480);
+    const reveal = setTimeout(() => { setIntroPhase('revealing'); interactive.current = true; engine.current?.resume(); }, 480);
     const finish = setTimeout(() => { setIntroPhase('done'); interactive.current = true; }, 1680);
     return () => { clearTimeout(reveal); clearTimeout(finish); };
   }, [loading.ready]);
   useEffect(() => {
     if (state.scene === displayScene || state.phase === 'loading' || state.phase === 'error') return;
-    // Backward playback reaches the previous scene only at the end of the clip.
+    // Backward navigation jumps to a decoded loop frame before revealing its UI.
     // History also waits for its camera move on forward arrival.
     // `loop` is published only after the first decoded stop frame is painted.
     const returning = motion.current.direction === -1;
@@ -84,27 +85,18 @@ export function Portfolio() {
     }).catch(() => {
       if (!controller.signal.aborted) setLoading((current) => ({ ...current, error: true }));
     });
-    let wheelAmount = 0;
-    let lastWheelAt = 0;
+    const wheelGesture = new SceneWheelGesture();
     let touchY: number | null = null;
     let touchX = 0;
     function wheel(event: WheelEvent) {
       if (event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
       event.preventDefault();
-      if (!player || !interactive.current) return;
-      if (bookStatus.current !== 'browsing') { wheelAmount = 0; return; }
-      const now = performance.now();
-      if (player.getSnapshot().phase !== 'loop') { wheelAmount = 0; return; }
-      if (now - lastWheelAt > 180 || Math.sign(wheelAmount) !== Math.sign(event.deltaY)) wheelAmount = 0;
-      lastWheelAt = now;
-      wheelAmount += event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1);
-      if (Math.abs(wheelAmount) >= 30) {
-        player.move(wheelAmount > 0 ? 1 : -1);
-        wheelAmount = 0;
-      }
+      if (!player || !interactive.current || bookStatus.current !== 'browsing') { wheelGesture.reset(); return; }
+      const direction = wheelGesture.consume(event.deltaY * (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1), performance.now());
+      if (direction) player.move(direction);
     }
     function key(event: KeyboardEvent) {
-      if (!interactive.current) return;
+      if (!interactive.current || event.repeat) return;
       if (event.target instanceof Element && event.target.closest('button,a,input,textarea,select,[contenteditable="true"]')) return;
       if (['ArrowDown', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); if (bookStatus.current === 'browsing') player?.move(1); }
       if (['ArrowUp', 'PageUp'].includes(event.key)) { event.preventDefault(); if (bookStatus.current === 'browsing') player?.move(-1); }
@@ -154,7 +146,7 @@ export function Portfolio() {
     if (target) engine.current?.navigate(target);
   }, []);
   return <main ref={stage} className="portfolio" data-scene={state.scene} data-phase={state.phase} data-intro-phase={introPhase}>
-    <div className="portfolio-reveal" data-visible={introPhase === 'revealing' || introPhase === 'done'} inert={introPhase !== 'done'}>
+    <div className="portfolio-reveal" data-visible={introPhase === 'revealing' || introPhase === 'done'} inert={introPhase === 'loading' || introPhase === 'complete'}>
     <canvas ref={canvas} className="frame-canvas" aria-hidden="true" />
     {(introPhase === 'revealing' || introPhase === 'done') && <PortfolioUI prepareBooks={state.phase === 'loop' || state.scene === 'history'} scene={displayScene} transitionPending={state.scene !== displayScene} motionRef={motion} onNavigate={navigate} onBookStatusChange={handleBookStatusChange} onBookClosed={handleBookClosed} closeRequest={closeRequest} />}
     </div>

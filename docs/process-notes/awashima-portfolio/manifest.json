@@ -1,9 +1,9 @@
 {
   "captured_on": "2026-11-07",
   "curated_on": "2026-11-08",
-  "scope": "公開用の主要資料15件。工程ごと最大2件。学習メモ・進捗・旧案は除外。",
+  "scope": "公開用の主要資料16件。工程ごと最大2件。工程10には2026-11-08の意見・改善記録と計測データを追加。学習メモ・進捗・旧案は除外。",
   "previous_snapshot": "677dd15c8162fc6ee4e188f5127e2d4f90e9894f",
-  "original_local_notes_unchanged": true,
+  "original_local_notes_unchanged": false,
   "files": [
     {
       "path": "source/01_企画・要件定義/企画・要件定義.md",
@@ -97,10 +97,12 @@
     },
     {
       "path": "source/10_分析・改善/分析・改善.md",
-      "source_sha256": "964d466b3fde92790623caf31a758dbe88d4b0ad9f771cb3ee3429b3b9da997f",
-      "published_sha256": "964d466b3fde92790623caf31a758dbe88d4b0ad9f771cb3ee3429b3b9da997f",
+      "source_sha256": "3be6f89232224901ae05d704125d403154e0aebdfa43cffbed40fb4a29f42b59",
+      "published_sha256": "3be6f89232224901ae05d704125d403154e0aebdfa43cffbed40fb4a29f42b59",
       "adjusted_for_publication": false,
-      "kind": "selected-original"
+      "kind": "updated-original",
+      "previous_source_sha256": "964d466b3fde92790623caf31a758dbe88d4b0ad9f771cb3ee3429b3b9da997f",
+      "updated_on": "2026-11-08"
     },
     {
       "path": "source/11_ケーススタディ作成/ケーススタディ作成.md",
@@ -108,6 +110,35 @@
       "published_sha256": "ab0baef3b69985190694ec5fff5044b8e3cd021de6892f411f802db395b7e789",
       "adjusted_for_publication": false,
       "kind": "selected-original"
+    },
+    {
+      "path": "source/10_分析・改善/2026-11-08-initial-feedback.md",
+      "source_sha256": "4babcc479aab7981f6d063f527292065f5697717301e0866304573fb87cc02b8",
+      "published_sha256": "4babcc479aab7981f6d063f527292065f5697717301e0866304573fb87cc02b8",
+      "adjusted_for_publication": false,
+      "kind": "analysis-record",
+      "captured_on": "2026-11-08",
+      "updated_on": "2026-11-08"
+    }
+  ],
+  "updated_on": "2026-11-08",
+  "source_updates": [
+    {
+      "date": "2026-11-08",
+      "stage": "10_分析・改善",
+      "change": "元工程の分析・改善.mdへ記録の導線を追加し、本人が依頼した最初の意見・改善案・計測データを元工程と公開用コピーに保存。その他の元工程メモは未変更。"
+    },
+    {
+      "date": "2026-11-08",
+      "stage": "10_分析・改善",
+      "change": "意見02（マーケ・LP視点の遷移とスクロールに関する指摘）と、コードで確認した現状・未実装の改善案・検証案を原本と共有用コピーへ追記。"
+    }
+  ],
+  "evidence_files": [
+    {
+      "path": "source/10_分析・改善/evidence/frame-delivery-2026-11-08.json",
+      "source_sha256": "a93855d98be526c20aa103394173609a113d7f4468e03defc556ab272161cb6c",
+      "published_sha256": "a93855d98be526c20aa103394173609a113d7f4468e03defc556ab272161cb6c"
     }
   ]
 }
